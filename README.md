@@ -4,7 +4,7 @@ Filly - Dev
 
 Heidi - PD  
 
-Ase - PM/PD  
+Ase - PM 
 
 Salman - PM  
 
