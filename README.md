@@ -14,3 +14,4 @@ Team Set Up: https://app.notion.com/p/INFO-442-G-Notion-3f74c7b75f8a8073a5eadd7b
 
 Market Research: https://app.notion.com/p/Market-Research-3f84c7b75f8a808687faf2c0c3b6dfdd
 
+Specifications: https://app.notion.com/p/Specifications-3fd4c7b75f8a80919b30f5ca011dcd56
