@@ -15,3 +15,25 @@ export async function loadResources() {
     const rows = await response.json();
     return rows.map(toResource);
 }
+
+export function toResources(row) {
+    return {
+        name: row.location,
+        agency: row.agency,
+        type: row.food_resource_type ?? '',
+        status: row.operational_status,
+        whoTheyServe: row.who_they_serve,
+        address: row.address,
+        lat: Number(row.latitude),
+        lng: Number(row.longitude),
+        phone: cleanPhone(row.phone_number),
+        website: row.website ?? null,
+    };
+}
+
+function cleanPhone(phone) {
+    if (!phone ?? phone === 'N/A') {
+        return null;
+    }
+    return phone;
+}
