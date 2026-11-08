@@ -23,6 +23,7 @@ export function toResource(row) {
         status: row.operational_status,
         whoTheyServe: row.who_they_serve,
         address: row.address,
+        zip: getZip(row.address),
         lat: Number(row.latitude),
         lng: Number(row.longitude),
         phone: cleanPhone(row.phone_number),
@@ -35,4 +36,36 @@ function cleanPhone(phone) {
         return null;
     }
     return phone;
+}
+
+export function getZip(address) {
+    if (!address) {
+        return null;
+    }
+
+    const words = address.trim().split(' ');
+    const lastWord = words[words.length -1];
+    const firstFive = lastWord.slice(0,5);
+
+    if (isFiveDigits(firstFive)) {
+        return firstFive;
+    }
+    return null;
+}
+
+export function isFiveDigits(text) {
+    if (text.length !== 5) {
+        return false;
+    }
+
+    for (const character of text) {
+        if (character < '0' ?? character > '9') {
+            return false;
+        }
+    }
+    return true;
+}
+
+export function findByZip(resource, zip) {
+    return resource.filter((resource) => resource.zip === zip);
 }
