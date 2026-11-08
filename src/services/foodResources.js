@@ -2,6 +2,8 @@
 
 //City of Seattle's Emergency Food and Meals data
 //The city allows for a small amount of requests without a key, so it is not needed for now
+
+import ZIP_CENTERS from '../data/zipCenters.json'
 const API_URL = 'https://data.seattle.gov/resource/kkzf-ntnu.json';
 
 export async function loadResources() {
@@ -29,6 +31,7 @@ export function toResource(row) {
         phone: cleanPhone(row.phone_number),
         website: row.website ?? null,
         days: getDays(row.days_hours),
+        distance: null,
     };
 }
 
@@ -107,4 +110,55 @@ export function applyFilters(resources, selectedType, selectedDay) {
         (resource) =>
             matchesType(resource, selectedType) && matchesDay(resource, selectedDay)
     );
+}
+
+export function milesBetween(pointA, pointB) {
+  const northSouthMiles = (pointA.lat - pointB.lat) * 69;
+  const eastWestMiles = (pointA.lng - pointB.lng) * 46.5;
+  return Math.sqrt(northSouthMiles ** 2 + eastWestMiles ** 2);
+}
+
+export function addDistances(resources, searchedZip) {
+  const center = ZIP_CENTERS[searchedZip];
+  for (const resource of resources) {
+    if (center) {
+      resource.distance = milesBetween(center, resource);
+    } else {
+      resource.distance = null;
+    }
+  }
+}
+
+export function sortByDistance(resources) {
+  return [...resources].sort((a, b) => (a.distance || 0) - (b.distance || 0));
+}
+
+function getTodayName() {
+  return new Date().toLocaleDateString('en-US', {
+    weekday: 'long',
+    timeZone: 'America/Los_Angeles',
+  });
+}
+
+function relevanceScore(resource, selectedDay) {
+  const dayWanted = selectedDay || getTodayName();
+  let score = 0;
+  if (resource.days.includes(dayWanted)) {
+    score = score + 2;
+  }
+  if (resource.status === 'Open') {
+    score = score + 1;
+  }
+  return score;
+}
+
+export function sortByRelevance(resources, selectedDay) {
+  return [...resources].sort((a, b) => {
+    const scoreA = relevanceScore(a, selectedDay);
+    const scoreB = relevanceScore(b, selectedDay);
+    if (scoreA !== scoreB) {
+      return scoreB - scoreA; // Higher score first.
+    }
+    return (a.distance || 0) - (b.distance || 0); // Same score: nearer first.
+  });
 }
