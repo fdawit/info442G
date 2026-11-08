@@ -28,6 +28,7 @@ export function toResource(row) {
         lng: Number(row.longitude),
         phone: cleanPhone(row.phone_number),
         website: row.website ?? null,
+        days: getDays(row.days_hours),
     };
 }
 
@@ -68,4 +69,42 @@ export function isFiveDigits(text) {
 
 export function findByZip(resource, zip) {
     return resource.filter((resource) => resource.zip === zip);
+}
+
+export function getDays(daysText) {
+    if (!daysText) {
+        return [];
+    }
+    
+    const days = daysText.split(',').map((day) => day.trim());
+    return days.filter((day) => day !== 'Unknown');
+}
+
+//Matches resource to food type based on the API.
+//Raw food -> Food Bank
+//Cooked food -> Meal
+function matchesType(resource, selectedType) {
+    if (selectedType === 'Raw Food') {
+        return resource.type.includes('Food Bank');
+    }
+    if (selectedType === 'Cooked Food') {
+        return resource.type.includes('Meal');
+    }
+    return true;
+}
+
+//Is the reosurce open on the selected day
+function matchesDay(resource, selectedDay) {
+    if (!selectedDay) {
+        return true;
+    }
+    return resource.days.includes(selectedDay);
+}
+
+//Only keeps resources that match both of the filters
+export function applyFilters(resources, selectedType, selectedDay) {
+    return resources.filter(
+        (resource) =>
+            matchesType(resource, selectedType) && matchesDay(resource, selectedDay)
+    );
 }

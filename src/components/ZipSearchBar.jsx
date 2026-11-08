@@ -22,7 +22,7 @@ export default function ZipSearchBar({ onSearch }) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <label htmlFor="zip-input">ZIP code</label>
+            <label htmlFor="zip-input">ZIP code: </label>
             <input id="zip-input" type="text" inputMode="numeric" value={zipText} onChange={(event) => setZipText(event.target.value)}/>
             <button type="submit">Search</button>
             {error && <p>{error}</p>}
