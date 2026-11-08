@@ -1,4 +1,3 @@
-//foodResources.js
 //This contains all the app will need to load, search, filter, sort food resources
 
 //City of Seattle's Emergency Food and Meals data
@@ -16,7 +15,7 @@ export async function loadResources() {
     return rows.map(toResource);
 }
 
-export function toResources(row) {
+export function toResource(row) {
     return {
         name: row.location,
         agency: row.agency,
