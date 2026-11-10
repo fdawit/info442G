@@ -129,9 +129,9 @@ export async function getWalkingDistances(origin, locations, apiKey) {
   }
 
   const data = await response.json();
-  const row = data.sources_to_targets && data.sources_to_targets[0];
+  const routeRow = data.sources_to_targets && data.sources_to_targets[0];
 
-  if (!Array.isArray(row)) {
+  if (!Array.isArray(routeRow)) {
     throw new Error("The distance response was not valid.");
   }
 
@@ -141,7 +141,7 @@ export async function getWalkingDistances(origin, locations, apiKey) {
     distances[location.id] = null;
   });
 
-  row.forEach((cell, index) => {
+  routeRow.forEach((cell, index) => {
     if (!cell) {
       return;
     }
