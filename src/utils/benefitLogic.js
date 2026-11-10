@@ -181,15 +181,9 @@ export function selectBenefits(data, filters, distances) {
         distanceMeters = distance;
       }
 
-      const hours = data.hours.filter((row) => {
-        return row.location_id === location.id;
-      }).sort((a, b) => {
-        return a.weekday - b.weekday;
-      });
       return {
         ...location,
-        distanceMeters,
-        hours
+        distanceMeters
       };
     });
 
@@ -213,7 +207,6 @@ export function selectBenefits(data, filters, distances) {
       results.push({
         ...program,
         locations,
-        matchedTags,
         relevanceScore: matchedTags.length,
         distanceMeters: locations[0].distanceMeters
       });
