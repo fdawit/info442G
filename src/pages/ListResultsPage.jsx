@@ -1,10 +1,10 @@
-//Issue #3(Milestone1) version of the results page, to show search by zip, then filter by type and day
+//Issue #4(Milestone1) version of the results page, to show search by zip, then filter by type and day
 
 import { useEffect, useState } from 'react';
 import ZipSearchBar from '../components/ZipSearchBar'
 import FilterPanel from '../components/FilterPanel';
 import SortMenu from '../components/SortMenu';
-import { loadResources, findByZip, applyFilters, addDistances, sortByDistance, sortByRelevance, } from '../services/foodResources';
+import { loadResources, findNearZip, applyFilters, addDistances, sortByDistance, sortByRelevance, } from '../services/foodResources';
 
 
 export default function ListResultsPage() {
@@ -29,7 +29,7 @@ export default function ListResultsPage() {
         setDay(newDay);
     }
 
-    let results = findByZip(allResources, searchedZip); //issue #2(M1)
+    let results = findNearZip(allResources, searchedZip, 3); //issue #2(M1)
     results = applyFilters(results, foodType, day); //issue #3 (M1)
     addDistances(results, searchedZip); //issue #4 (M1)
     if (sortBy === 'distance') {

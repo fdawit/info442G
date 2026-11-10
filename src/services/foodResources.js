@@ -162,3 +162,14 @@ export function sortByRelevance(resources, selectedDay) {
     return (a.distance || 0) - (b.distance || 0); // Same score: nearer first.
   });
 }
+
+export function findNearZip(resources, zip, maxMiles) {
+  const center = ZIP_CENTERS[zip];
+  if (!center) {
+    return findByZip(resources, zip);
+  }
+  return resources.filter(
+    (resource) => resource.zip === zip || milesBetween(center, resource) <= maxMiles);
+}
+
+
