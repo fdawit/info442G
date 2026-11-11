@@ -34,6 +34,9 @@ export default function ListResultsPage() {
         <main>
             <h1>Find Food Near You</h1>
 
+            <p>
+                <a href="/?view=benefits-s1">Benefits Test Page</a>
+            </p>
             <ZipSearchBar onSearch={setSearchedZip} />
             <FilterPanel onApply={handleApplyFilters} />
 
