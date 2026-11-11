@@ -53,15 +53,6 @@ function isTime(value) {
   return hour <= 23 && minute <= 59;
 }
 
-export function firstFiveCharacters(value) {
-  let text = "";
-
-  for (let i = 0; i < 5 && i < value.length; i++) {
-    text = text + value[i];
-  }
-  return text;
-}
-
 export function isZip(value) {
   if (typeof value !== "string") {
     return false;
@@ -139,8 +130,8 @@ export function matchesHours(locationId, hours, weekday, time) {
     return false;
   }
 
-  return time >= firstFiveCharacters(row.opens_at) &&
-    time < firstFiveCharacters(row.closes_at);
+  return time >= row.opens_at.slice(0, 5) &&
+    time < row.closes_at.slice(0, 5);
 }
 
 export function selectBenefits(data, filters, distances) {
