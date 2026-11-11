@@ -97,15 +97,7 @@ export function compareDistance(first, second) {
     return -1;
   }
 
-  if (first === second) {
-    return 0;
-  }
-
-  if (first < second) {
-    return -1;
-  }
-
-  return 1;
+  return first - second;
 }
 
 export function matchesHours(locationId, hours, weekday, time) {
