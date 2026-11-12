@@ -1,0 +1,22 @@
+.resource-details-columns {
+  display: flex;
+  gap: 32px;
+  margin-top: 24px;
+}
+
+.resource-details-columns > section {
+  flex: 1;
+  min-width: 0;
+}
+
+.resource-details-map {
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eeeeee;
+}
+
+.resource-details-columns h2 {
+  margin-top: 28px;
+}
