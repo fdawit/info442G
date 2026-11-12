@@ -9,6 +9,16 @@ export default function ZipSearchBar({ id = 'zip-input', initialZip = '', onSear
     const [zipText, setZipText] = useState(initialZip);
     const [error, setError] =useState('');
 
+    function handleChange(event) {
+        const text = event.target.value;
+        setZipText(text);
+
+        if (isFiveDigits(text.trim())) {
+        setError('');
+        onSearch(text.trim());
+        }
+    }
+
     function handleSubmit(event) {
         event.preventDefault()
 
@@ -25,7 +35,7 @@ export default function ZipSearchBar({ id = 'zip-input', initialZip = '', onSear
     return (
         <form className="zip-search" onSubmit={handleSubmit}>
             <label htmlFor={id}>ZIP code: </label>
-            <input id={id} type="text" inputMode="numeric" value={zipText} onChange={(event) => setZipText(event.target.value)}/>
+            <input id={id} type="text" inputMode="numeric" value={zipText} onChange={handleChange}/>
             <button type="submit">Search</button>
             {error && <p className="zip-search-error">{error}</p>}
         </form>

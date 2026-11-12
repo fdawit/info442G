@@ -34,7 +34,7 @@ export default function ListResultsPage() {
     }
 
     function handleSearch(zip) {
-        setSearchParams({ zip: zip });
+        setSearchParams({ zip: zip }, { replace: zip === searchedZip});
     }
 
     let results = findNearZip(allResources, searchedZip, 3); //issue #2(M1)
@@ -57,7 +57,7 @@ export default function ListResultsPage() {
 
             {loading &&  <p>Loading...</p>}
             {loadError && <p>{loadError}</p>}
-            {!loading && !loadError && searchedZip === '' && (<p>Please enter a ZIP code to find food near you.</p>)}
+            {!loading && !loadError && searchedZip === '' && (<p>Enter a ZIP code to find food near you.</p>)}
             {!loading && !loadError && searchedZip !== '' && (<ResultsList zip={searchedZip} results={results} />)}
         </main>
     );
