@@ -3,13 +3,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import ZIP_CENTERS from "../data/zipCenters.json";
 import "./ResourceMap.css";
-
-function hasMapCoordinates(resource) {
-    return Number.isFinite(resource.lat) &&
-        Number.isFinite(resource.lng) &&
-        resource.lat >= -90 && resource.lat <= 90 &&
-        resource.lng >= -180 && resource.lng <= 180;
-}
+import { hasResourceCoordinates } from "../services/foodResources";
 
 export default function ResourceMap({ zip, results, onSelect, selectedResource }) {
     const elementRef = useRef(null);
@@ -49,7 +43,10 @@ export default function ResourceMap({ zip, results, onSelect, selectedResource }
             return;
         }
 
-        const center = ZIP_CENTERS[zip] || { lat: 47.6062, lng: -122.3321 };
+        let center = ZIP_CENTERS[zip];
+        if (!hasResourceCoordinates(center)) {
+            center = { lat: 47.6062, lng: -122.3321 };
+        }
         mapRef.current.setView([center.lat, center.lng], 12);
     }, [zip, apiKey]);
 
@@ -60,7 +57,7 @@ export default function ResourceMap({ zip, results, onSelect, selectedResource }
         }
         const markers = L.layerGroup().addTo(map);
         results.forEach((resource, index) => {
-            if (!hasMapCoordinates(resource)) {
+            if (!hasResourceCoordinates(resource)) {
                 return;
             }
             const icon = L.divIcon({
@@ -83,7 +80,7 @@ export default function ResourceMap({ zip, results, onSelect, selectedResource }
     }, [results, onSelect, apiKey]);
 
     const hiddenCount = results.filter((resource) => {
-        return !hasMapCoordinates(resource);
+        return !hasResourceCoordinates(resource);
     }).length;
 
 
@@ -97,7 +94,7 @@ export default function ResourceMap({ zip, results, onSelect, selectedResource }
             {(!apiKey || mapError) && (
                 <p role="alert">Unable to load the map. Please try again.</p>
             )}
-            {hiddenCount > 0 && <p>TO DO: {hiddenCount} location(s) cannot be shown.</p>}
+            {hiddenCount > 0 && <p>{hiddenCount} location(s) cannot be shown.</p>}
             <div className="resource-map-canvas" ref={elementRef} role="region" aria-label="Food resource map" />
         </div>
     );
