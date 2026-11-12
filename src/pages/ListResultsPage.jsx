@@ -56,7 +56,7 @@ export default function ListResultsPage() {
 
             <div className="food-search-controls">
                 <ZipSearchBar key={searchedZip} id="page-zip" initialZip={searchedZip} onSearch={handleSearch} />
-                <FilterPanel onApply={handleApplyFilters} />
+                <FilterPanel appliedType={foodType} appliedDay={day} onApply={handleApplyFilters} />
                 <SortMenu value={sortBy} onChange={setSortBy} />
             </div>
 
