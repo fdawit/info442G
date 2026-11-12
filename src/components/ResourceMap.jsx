@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import ZIP_CENTERS from "../data/zipCenters.json";
 import "./ResourceMap.css";
 import { hasResourceCoordinates } from "../services/foodResources";
 
-export default function ResourceMap({ zip, results, onSelect, selectedResource, center }) {
+export default function ResourceMap({ zip, results, onSelect, selectedResource, center, searchQuery = '' }) {
     const elementRef = useRef(null);
     const mapRef = useRef(null);
     const [mapError, setMapError] = useState(false);
@@ -93,7 +94,8 @@ export default function ResourceMap({ zip, results, onSelect, selectedResource, 
         <div className="resource-map">
             {results.indexOf(selectedResource) !== -1 && (
                 <p role="status">
-                    {selectedResource.name} · {selectedResource.address} · View details: TO DO
+                    {selectedResource.name} · {selectedResource.address}{" · "}
+                    <Link to={"/resource-details/" + encodeURIComponent(selectedResource.id) + "?" + searchQuery}>View details</Link>
                 </p>
             )}
             {(!apiKey || mapError) && (

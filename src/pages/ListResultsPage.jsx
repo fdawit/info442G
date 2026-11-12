@@ -110,7 +110,7 @@ export default function ListResultsPage() {
             {!loading && !loadError && hasValidZip && (
                 <div className={isMapView ? "food-map-results" : ""}>
                     <ResultsList zip={searchedZip} results={results} selectedResource={selectedResource} searchQuery={searchParams.toString()} />
-                    {isMapView && <ResourceMap zip={searchedZip} results={results} onSelect={setSelectedResource} selectedResource={selectedResource} />}
+                    {isMapView && <ResourceMap zip={searchedZip} results={results} onSelect={setSelectedResource} selectedResource={selectedResource} searchQuery={searchParams.toString()} />}
                 </div>
             )}
         </main>
