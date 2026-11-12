@@ -53,15 +53,6 @@ function isTime(value) {
   return hour <= 23 && minute <= 59;
 }
 
-export function firstFiveCharacters(value) {
-  let text = "";
-
-  for (let i = 0; i < 5 && i < value.length; i++) {
-    text = text + value[i];
-  }
-  return text;
-}
-
 export function isZip(value) {
   if (typeof value !== "string") {
     return false;
@@ -106,15 +97,7 @@ export function compareDistance(first, second) {
     return -1;
   }
 
-  if (first === second) {
-    return 0;
-  }
-
-  if (first < second) {
-    return -1;
-  }
-
-  return 1;
+  return first - second;
 }
 
 export function matchesHours(locationId, hours, weekday, time) {
@@ -139,15 +122,13 @@ export function matchesHours(locationId, hours, weekday, time) {
     return false;
   }
 
-  return time >= firstFiveCharacters(row.opens_at) &&
-    time < firstFiveCharacters(row.closes_at);
+  return time >= row.opens_at.slice(0, 5) &&
+    time < row.closes_at.slice(0, 5);
 }
 
 export function selectBenefits(data, filters, distances) {
-  const choices = [...filters.foodNeeds, ...filters.householdTags];
-
-  const selectedTags = choices.filter((tag, index) => {
-    return choices.indexOf(tag) === index;
+  const selectedTags = filters.preferences.filter((tag, index) => {
+    return filters.preferences.indexOf(tag) === index;
   });
 
   const programs = data.programs.filter((program) => {
