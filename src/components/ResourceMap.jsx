@@ -4,7 +4,14 @@ import "leaflet/dist/leaflet.css";
 import ZIP_CENTERS from "../data/zipCenters.json";
 import "./ResourceMap.css";
 
-export default function ResourceMap({ zip }) {
+function hasMapCoordinates(resource) {
+    return Number.isFinite(resource.lat) &&
+        Number.isFinite(resource.lng) &&
+        resource.lat >= -90 && resource.lat <= 90 &&
+        resource.lng >= -180 && resource.lng <= 180;
+}
+
+export default function ResourceMap({ zip, results }) {
     const elementRef = useRef(null);
     const mapRef = useRef(null);
     const [mapError, setMapError] = useState(false);
@@ -46,11 +53,40 @@ export default function ResourceMap({ zip }) {
         mapRef.current.setView([center.lat, center.lng], 12);
     }, [zip, apiKey]);
 
+    useEffect(() => {
+        const map = mapRef.current;
+        if (!map) {
+            return;
+        }
+        const markers = L.layerGroup().addTo(map);
+        results.forEach((resource) => {
+            if (!hasMapCoordinates(resource)) {
+                return;
+            }
+            L.circleMarker([resource.lat, resource.lng], {
+                radius: 8,
+                color: "#ffffff",
+                weight: 2,
+                fillColor: "#195b40",
+                fillOpacity: 1
+            }).addTo(markers);
+        });
+        return () => {
+            markers.remove();
+        };
+    }, [results, apiKey]);
+
+    const hiddenCount = results.filter((resource) => {
+        return !hasMapCoordinates(resource);
+    }).length;
+
+
     return (
         <div className="resource-map">
             {(!apiKey || mapError) && (
                 <p role="alert">Unable to load the map. Please try again.</p>
             )}
+            {hiddenCount > 0 && <p>TO DO: {hiddenCount} location(s) cannot be shown.</p>}
             <div className="resource-map-canvas" ref={elementRef} role="region" aria-label="Food resource map" />
         </div>
     );
