@@ -1,14 +1,14 @@
-//M1(#4) Let's the user pick how the results are ordered
+//Lets the user pick how results are ordered from distance or relevance
+
+import Dropdown from './Dropdown'
+
+const SORT_OPTIONS = [
+  { value: 'distance', label: 'Distance' },
+  { value: 'relevance', label: 'Relevance' },
+];
 
 export default function SortMenu({ value, onChange }) {
     return (
-        <div>
-            <label htmlFor="sort-select">Sort by</label>
-            <select id="sort-select" value={value} onChange={(event) =>
-            onChange(event.target.value)}>
-                <option value="distance">Distance</option>
-                <option value="relevance">Relevance</option>
-            </select>
-        </div>
+        <Dropdown id="sort-select" label="Sort by" value={value} options={SORT_OPTIONS} onChange={onChange}/>
     );
 }
