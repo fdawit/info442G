@@ -52,17 +52,19 @@ function ResourceDetailsContent({ resourceId }) {
                 <section>
                     <div className="resource-details-map">TO DO</div>
                     <h1>{resource.name}</h1>
-                    <p>TO DO</p>
+                    <p>{resource.type || "Information not available."}</p>
+                    <p>{resource.address || "Information not available."}</p>
                     <h2>Contact information</h2>
                     <p>TO DO</p>
                 </section>
                 <section>
                     <h2>About resource</h2>
-                    <p>TO DO</p>
+                    <p>Information not available.</p>
                     <h2>Eligibility requirements</h2>
-                    <p>TO DO</p>
+                    <p>{resource.whoTheyServe || "Information not available."}</p>
                     <h2>Hours of operation</h2>
-                    <p>TO DO</p>
+                    {resource.days.length > 0 && <p>Open days: {resource.days.join(', ')}</p>}
+                    <p>Information not available.</p>
                 </section>
             </div>
         </main>
