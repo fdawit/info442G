@@ -72,7 +72,7 @@ export async function loadBenefits(zip) {
 
 export async function searchBenefits(input) {
   const zip = input.trim();
-  
+
   const data = await loadBenefits(zip);
   let distances = {};
 
