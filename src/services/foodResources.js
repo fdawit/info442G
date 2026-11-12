@@ -36,7 +36,7 @@ export function toResource(row) {
 }
 
 function cleanPhone(phone) {
-    if (!phone ?? phone === 'N/A') {
+    if (!phone || phone === 'N/A') {
         return null;
     }
     return phone;
@@ -63,7 +63,7 @@ export function isFiveDigits(text) {
     }
 
     for (const character of text) {
-        if (character < '0' ?? character > '9') {
+        if (character < '0' || character > '9') {
             return false;
         }
     }
