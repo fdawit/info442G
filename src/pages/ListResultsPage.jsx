@@ -1,9 +1,10 @@
-//Issue #3(Milestone1) version of the results page, to show search by zip, then filter by type and day
+//Issue #4(Milestone1) version of the results page, to show search by zip, then filter by type and day
 
 import { useEffect, useState } from 'react';
 import ZipSearchBar from '../components/ZipSearchBar'
 import FilterPanel from '../components/FilterPanel';
-import { loadResources, findByZip, applyFilters } from '../services/foodResources';
+import SortMenu from '../components/SortMenu';
+import { loadResources, findNearZip, applyFilters, addDistances, sortByDistance, sortByRelevance, } from '../services/foodResources';
 
 
 export default function ListResultsPage() {
@@ -13,6 +14,7 @@ export default function ListResultsPage() {
     const [searchedZip, setSearchedZip] = useState('');
     const [foodType, setFoodType] = useState('All Food');
     const [day, setDay] = useState('');
+    const [sortBy, setSortBy] = useState('distance');
 
     //Downloads data once when the page first opens
     useEffect(() => {
@@ -27,8 +29,15 @@ export default function ListResultsPage() {
         setDay(newDay);
     }
 
-    let results = findByZip(allResources, searchedZip); //issue #2(M1)
+    let results = findNearZip(allResources, searchedZip, 3); //issue #2(M1)
     results = applyFilters(results, foodType, day); //issue #3 (M1)
+    addDistances(results, searchedZip); //issue #4 (M1)
+    if (sortBy === 'distance') {
+        results = sortByDistance(results);
+    } else {
+        results = sortByRelevance(results, day);
+    }
+
 
     return (
         <main>
@@ -39,6 +48,7 @@ export default function ListResultsPage() {
             </p>
             <ZipSearchBar onSearch={setSearchedZip} />
             <FilterPanel onApply={handleApplyFilters} />
+            <SortMenu value={sortBy} onChange={setSortBy} />
 
             {loading &&  <p>Loading...</p>}
             {loadError && <p>{loadError}</p>}
@@ -66,6 +76,7 @@ function ResultsList({ zip, results }) {
                         <div>{resource.address}</div>
                         <div>{resource.type} | {resource.status}</div>
                         <div>Open: {resource.days.length > 0 ? resource.days.join(', ') : 'Days not listed'}</div>
+                        <div>{resource.distance === null ? 'Distance not available' : resource.distance.toFixed(1) + 'mi'}</div>
                     </li>
                 ))}
             </ul>
