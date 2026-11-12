@@ -8,3 +8,21 @@
   padding: 0;
   list-style: none; /* no bullet points */
 }
+
+.food-search-home {
+  padding-top: 64px;
+}
+
+.food-search-home h1 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.food-search-home .food-search-controls {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.food-search-controls > * {
+  margin-bottom: 16px;
+}

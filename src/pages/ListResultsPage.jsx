@@ -47,13 +47,18 @@ export default function ListResultsPage() {
     }
 
 
+    let pageClass = "food-search-page";
+    if (!searchedZip) {pageClass += " food-search-home";}
+
     return (
-        <main>
+        <main className={pageClass}>
             <h1>Find Food Near You</h1>
 
-            <ZipSearchBar key={searchedZip} id="page-zip" initialZip={searchedZip} onSearch={handleSearch} />
-            <FilterPanel onApply={handleApplyFilters} />
-            <SortMenu value={sortBy} onChange={setSortBy} />
+            <div className="food-search-controls">
+                <ZipSearchBar key={searchedZip} id="page-zip" initialZip={searchedZip} onSearch={handleSearch} />
+                <FilterPanel onApply={handleApplyFilters} />
+                <SortMenu value={sortBy} onChange={setSortBy} />
+            </div>
 
             {loading &&  <p>Loading...</p>}
             {loadError && <p>{loadError}</p>}
