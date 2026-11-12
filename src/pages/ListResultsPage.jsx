@@ -4,6 +4,7 @@ import ZipSearchBar from '../components/ZipSearchBar'
 import FilterPanel from '../components/FilterPanel';
 import SortMenu from '../components/SortMenu';
 import ResourceCard from '../components/ResourceCard';
+import ResourceMap from '../components/ResourceMap';
 import { loadResources, findNearZip, applyFilters, addDistances, sortByDistance, sortByRelevance, } from '../services/foodResources';
 import './ListResultsPage.css';
 
@@ -16,6 +17,7 @@ export default function ListResultsPage() {
     const [day, setDay] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
     const searchedZip = searchParams.get('zip') || '';
+    const isMapView = searchParams.get('view') === 'map';
     let sortBy = searchParams.get("sort");
     if (sortBy !== "relevance") {
         sortBy = "distance";
@@ -48,6 +50,12 @@ export default function ListResultsPage() {
         setSearchParams(parameters);
     }
 
+    function handleView(value) {
+        const parameters = new URLSearchParams(searchParams);
+        parameters.set("view", value);
+        setSearchParams(parameters);
+    }
+
     let results = findNearZip(allResources, searchedZip, 3); //issue #2(M1)
     results = applyFilters(results, foodType, day); //issue #3 (M1)
     addDistances(results, searchedZip); //issue #4 (M1)
@@ -71,9 +79,16 @@ export default function ListResultsPage() {
                 <SortMenu value={sortBy} onChange={handleSort} />
             </div>
 
+            {searchedZip && (
+                <div className="food-view-buttons">
+                    <button type="button" aria-pressed={!isMapView} onClick={() => handleView("list")}>List</button>
+                    <button type="button" aria-pressed={isMapView} onClick={() => handleView("map")}>Map</button>
+                </div>
+            )}
             {loading &&  <p>Loading...</p>}
             {loadError && <p>{loadError}</p>}
             {!loading && !loadError && searchedZip === '' && (<p>Enter a ZIP code to find food near you.</p>)}
+            {isMapView && <ResourceMap zip={searchedZip} />}
             {!loading && !loadError && searchedZip !== '' && (<ResultsList zip={searchedZip} results={results} />)}
         </main>
     );

@@ -26,3 +26,14 @@
 .food-search-controls > * {
   margin-bottom: 16px;
 }
+
+.food-view-buttons {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.food-view-buttons button[aria-pressed="true"] {
+  background: #333333;
+  color: white;
+}
