@@ -5,6 +5,7 @@ import AboutPage from './pages/AboutPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ListResultsPage from './pages/ListResultsPage';
 import Footer from './components/Footer';
+import ResourceDetailsPage from './pages/ResourceDetailsPage';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/" element={<ListResultsPage />} />
         <Route path="/benefits-check" element={<BenefitsCheckPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/resource-details" element={<ResourceDetailsPage />} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
