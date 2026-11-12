@@ -1,0 +1,14 @@
+/*CSS for Zip Search */
+
+.zip-search {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.zip-search-error {
+    flex-basis: 100%;
+    margin: 0;
+    color: #FF2C2C;
+}

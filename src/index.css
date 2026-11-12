@@ -1,0 +1,27 @@
+/* index.css
+These will be basic styles/layouts shared by every page
+This will eventually cover fonts, colots, buttons, and layout in Sprint 2  */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* The nav bar, the page, and the footer should stack top to bottom
+If the page is short, min-height keeps the footer at the bottom */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 16px;
+}

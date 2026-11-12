@@ -1,10 +1,12 @@
-// A zip code box and a search button for issue #2
+// A zip code box and a search button
+// Used in the navbar and on the search page
 
 import { useState } from 'react';
 import { isFiveDigits } from '../services/foodResources'
+import './ZipSearchBar.css'
 
-export default function ZipSearchBar({ onSearch }) {
-    const [zipText, setZipText] = useState('');
+export default function ZipSearchBar({ id = 'zip-input', initialZip = '', onSearch }) {
+    const [zipText, setZipText] = useState(initialZip);
     const [error, setError] =useState('');
 
     function handleSubmit(event) {
@@ -21,11 +23,11 @@ export default function ZipSearchBar({ onSearch }) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="zip-input">ZIP code: </label>
-            <input id="zip-input" type="text" inputMode="numeric" value={zipText} onChange={(event) => setZipText(event.target.value)}/>
+        <form className="zip-search" onSubmit={handleSubmit}>
+            <label htmlFor={id}>ZIP code: </label>
+            <input id={id} type="text" inputMode="numeric" value={zipText} onChange={(event) => setZipText(event.target.value)}/>
             <button type="submit">Search</button>
-            {error && <p>{error}</p>}
+            {error && <p className="zip-search-error">{error}</p>}
         </form>
     );
 }
