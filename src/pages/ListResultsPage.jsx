@@ -52,7 +52,7 @@ export default function ListResultsPage() {
             <h1>Find Food Near You</h1>
 
             <ZipSearchBar key={searchedZip} id="page-zip" initialZip={searchedZip} onSearch={handleSearch} />
-            <FilterPanel onApply={handleApplyFilters} />
+            <FilterPanel appliedType={foodType} appliedDay={day} onApply={handleApplyFilters} />
             <SortMenu value={sortBy} onChange={setSortBy} />
 
             {loading &&  <p>Loading...</p>}
