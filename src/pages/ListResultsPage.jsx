@@ -14,9 +14,12 @@ export default function ListResultsPage() {
     const [loadError, setLoadError] = useState('');
     const [foodType, setFoodType] = useState('All Food');
     const [day, setDay] = useState('');
-    const [sortBy, setSortBy] = useState('distance');
     const [searchParams, setSearchParams] = useSearchParams();
     const searchedZip = searchParams.get('zip') || '';
+    let sortBy = searchParams.get("sort");
+    if (sortBy !== "relevance") {
+        sortBy = "distance";
+    }
 
 
 
@@ -34,7 +37,15 @@ export default function ListResultsPage() {
     }
 
     function handleSearch(zip) {
-        setSearchParams({ zip: zip }, { replace: zip === searchedZip});
+        const parameters = new URLSearchParams(searchParams);
+        parameters.set("zip", zip);
+        setSearchParams(parameters, { replace: zip === searchedZip });
+    }
+
+    function handleSort(value) {
+        const parameters = new URLSearchParams(searchParams);
+        parameters.set("sort", value);
+        setSearchParams(parameters);
     }
 
     let results = findNearZip(allResources, searchedZip, 3); //issue #2(M1)
@@ -57,7 +68,7 @@ export default function ListResultsPage() {
             <div className="food-search-controls">
                 <ZipSearchBar key={searchedZip} id="page-zip" initialZip={searchedZip} onSearch={handleSearch} />
                 <FilterPanel appliedType={foodType} appliedDay={day} onApply={handleApplyFilters} />
-                <SortMenu value={sortBy} onChange={setSortBy} />
+                <SortMenu value={sortBy} onChange={handleSort} />
             </div>
 
             {loading &&  <p>Loading...</p>}
