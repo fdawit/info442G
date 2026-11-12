@@ -53,9 +53,19 @@ function ResourceDetailsContent({ resourceId }) {
                     <div className="resource-details-map">TO DO</div>
                     <h1>{resource.name}</h1>
                     <p>{resource.type || "Information not available."}</p>
-                    <p>{resource.address || "Information not available."}</p>
+                    <p>
+                        {resource.address ? (
+                            <a href={"https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(resource.address)} target="_blank" rel="noreferrer">
+                                {resource.address}
+                            </a>
+                        ) : "Information not available."}
+                    </p>
                     <h2>Contact information</h2>
-                    <p>TO DO</p>
+                    {resource.phone && <p><a href={"tel:" + resource.phone}>{resource.phone}</a></p>}
+                    {resource.website && (
+                        <p><a href={resource.website} target="_blank" rel="noreferrer">Visit website</a></p>
+                    )}
+                    {!resource.phone && !resource.website && <p>Information not available.</p>}
                 </section>
                 <section>
                     <h2>About resource</h2>

@@ -30,11 +30,22 @@ export function toResource(row) {
       lat: Number(row.latitude),
       lng: Number(row.longitude),
       phone: cleanPhone(row.phone_number),
-      website: row.website ?? null,
+      website: getWebsite(row.website),
       days: getDays(row.days_hours),
       photo: null,
       distance: null,
     };
+}
+
+function getWebsite(website) {
+    if (!website || typeof website.url !== 'string') {
+        return null;
+    }
+    const url = website.url;
+    if (url.indexOf('https://') === 0 || url.indexOf('http://') === 0) {
+        return url;
+    }
+    return null;
 }
 
 function cleanPhone(phone) {
