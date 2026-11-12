@@ -1,0 +1,24 @@
+/* Layout for the footer  */
+
+.footer {
+  padding: 24px 16px;
+}
+
+.footer-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  max-width: 968px;
+  margin: 0 auto;
+}
+
+.footer h2 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.footer ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
