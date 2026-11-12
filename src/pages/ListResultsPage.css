@@ -9,6 +9,16 @@
   list-style: none; /* no bullet points */
 }
 
+.results-grid > li {
+  display: flex;
+  flex-direction: column;
+}
+
+.results-grid .resource-card {
+  height: auto;
+  flex: 1;
+}
+
 .food-search-home {
   padding-top: 64px;
 }
