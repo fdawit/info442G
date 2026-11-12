@@ -5,7 +5,7 @@ import FilterPanel from '../components/FilterPanel';
 import SortMenu from '../components/SortMenu';
 import ResourceCard from '../components/ResourceCard';
 import ResourceMap from '../components/ResourceMap';
-import { loadResources, findNearZip, applyFilters, addDistances, sortByDistance, sortByRelevance, } from '../services/foodResources';
+import { loadResources, findNearZip, applyFilters, addDistances, sortByDistance, sortByRelevance, isFiveDigits } from '../services/foodResources';
 import './ListResultsPage.css';
 
 
@@ -14,10 +14,18 @@ export default function ListResultsPage() {
     const [loading, setLoading] = useState(true);
     const [loadError, setLoadError] = useState('');
     const [selectedResource, setSelectedResource] = useState(null);
-    const [foodType, setFoodType] = useState('All Food');
-    const [day, setDay] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
-    const searchedZip = searchParams.get('zip') || '';
+    const searchedZip = (searchParams.get('zip') || '').trim();
+    const hasValidZip = isFiveDigits(searchedZip);
+    let foodType = searchParams.get('type');
+    if (foodType !== 'Raw Food' && foodType !== 'Cooked Food') {
+        foodType = 'All Food';
+    }
+    let day = searchParams.get('day') || '';
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    if (days.indexOf(day) === -1) {
+        day = '';
+    }
     const isMapView = searchParams.get('view') === 'map';
     let sortBy = searchParams.get("sort");
     if (sortBy !== "relevance") {
@@ -35,8 +43,12 @@ export default function ListResultsPage() {
     }, []);
 
     function handleApplyFilters(newFoodType, newDay) {
-        setFoodType(newFoodType);
-        setDay(newDay);
+        const parameters = new URLSearchParams(searchParams);
+        parameters.set('type', newFoodType);
+        parameters.set('day', newDay);
+        setSearchParams(parameters, {
+            replace: foodType === newFoodType && day === newDay
+        });
         setSelectedResource(null);
     }
 
@@ -59,13 +71,16 @@ export default function ListResultsPage() {
         setSearchParams(parameters);
     }
 
-    let results = findNearZip(allResources, searchedZip, 3); //issue #2(M1)
-    results = applyFilters(results, foodType, day); //issue #3 (M1)
-    addDistances(results, searchedZip); //issue #4 (M1)
-    if (sortBy === 'distance') {
-        results = sortByDistance(results);
-    } else {
-        results = sortByRelevance(results, day);
+    let results = [];
+    if (hasValidZip) {
+        results = findNearZip(allResources, searchedZip, 3);
+        results = applyFilters(results, foodType, day);
+        addDistances(results, searchedZip);
+        if (sortBy === 'distance') {
+            results = sortByDistance(results);
+        } else {
+            results = sortByRelevance(results, day);
+        }
     }
 
 
@@ -78,20 +93,21 @@ export default function ListResultsPage() {
 
             <div className="food-search-controls">
                 <ZipSearchBar key={searchedZip} id="page-zip" initialZip={searchedZip} onSearch={handleSearch} />
-                <FilterPanel appliedType={foodType} appliedDay={day} onApply={handleApplyFilters} />
+                <FilterPanel appliedType={foodType} appliedDay={day} onApply={handleApplyFilters} searchZip={searchedZip} />
                 <SortMenu value={sortBy} onChange={handleSort} />
             </div>
 
-            {searchedZip && (
+            {hasValidZip && (
                 <div className="food-view-buttons">
                     <button type="button" aria-pressed={!isMapView} onClick={() => handleView("list")}>List</button>
                     <button type="button" aria-pressed={isMapView} onClick={() => handleView("map")}>Map</button>
                 </div>
             )}
+            {searchedZip && !hasValidZip && <p role="alert">Please enter 5-digit zip code.</p>}
             {loading &&  <p>Loading...</p>}
             {loadError && <p>{loadError}</p>}
             {!loading && !loadError && searchedZip === '' && (<p>Enter a ZIP code to find food near you.</p>)}
-            {!loading && !loadError && searchedZip !== '' && (
+            {!loading && !loadError && hasValidZip && (
                 <div className={isMapView ? "food-map-results" : ""}>
                     <ResultsList zip={searchedZip} results={results} selectedResource={selectedResource} />
                     {isMapView && <ResourceMap zip={searchedZip} results={results} onSelect={setSelectedResource} selectedResource={selectedResource} />}
