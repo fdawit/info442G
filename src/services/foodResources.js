@@ -4,7 +4,7 @@
 //The city allows for a small amount of requests without a key, so it is not needed for now
 
 import ZIP_CENTERS from '../data/zipCenters.json'
-const API_URL = 'https://data.seattle.gov/resource/kkzf-ntnu.json';
+const API_URL = 'https://data.seattle.gov/resource/kkzf-ntnu.json?$select=*,:id';
 
 export async function loadResources() {
     const response = await fetch(API_URL);
@@ -19,20 +19,21 @@ export async function loadResources() {
 
 export function toResource(row) {
     return {
-        name: row.location,
-        agency: row.agency,
-        type: row.food_resource_type ?? '',
-        status: row.operational_status,
-        whoTheyServe: row.who_they_serve,
-        address: row.address,
-        zip: getZip(row.address),
-        lat: Number(row.latitude),
-        lng: Number(row.longitude),
-        phone: cleanPhone(row.phone_number),
-        website: row.website ?? null,
-        days: getDays(row.days_hours),
-        photo: null,
-        distance: null,
+      id: row[':id'],
+      name: row.location,
+      agency: row.agency,
+      type: row.food_resource_type ?? '',
+      status: row.operational_status,
+      whoTheyServe: row.who_they_serve,
+      address: row.address,
+      zip: getZip(row.address),
+      lat: Number(row.latitude),
+      lng: Number(row.longitude),
+      phone: cleanPhone(row.phone_number),
+      website: row.website ?? null,
+      days: getDays(row.days_hours),
+      photo: null,
+      distance: null,
     };
 }
 
