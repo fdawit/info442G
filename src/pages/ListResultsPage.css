@@ -8,3 +8,88 @@
   padding: 0;
   list-style: none; /* no bullet points */
 }
+
+.results-grid > li {
+  display: flex;
+  flex-direction: column;
+}
+
+.results-grid .resource-card {
+  height: auto;
+  flex: 1;
+}
+
+.food-search-home {
+  padding-top: 64px;
+}
+
+.food-search-home h1 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.food-search-home .food-search-controls {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.food-search-controls > * {
+  margin-bottom: 16px;
+}
+
+.food-view-buttons {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.food-view-buttons button[aria-pressed="true"] {
+  background: #333333;
+  color: white;
+}
+
+.food-map-results {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.food-map-results > section {
+  flex: 1;
+  min-width: 0;
+}
+
+.food-map-results .results-grid {
+  grid-template-columns: 1fr;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.food-map-results > .resource-map {
+  flex: 2;
+  min-width: 0;
+}
+
+.resource-selected {
+  outline: 3px solid #195b40;
+  outline-offset: -3px;
+}
+
+@media (max-width: 700px) {
+  .food-search-home {
+    padding-top: 24px;
+  }
+
+  .food-map-results {
+    flex-direction: column;
+  }
+
+  .food-map-results > section,
+  .food-map-results > .resource-map {
+    width: 100%;
+  }
+
+  .food-search-page .results-grid {
+    grid-template-columns: 1fr;
+  }
+}

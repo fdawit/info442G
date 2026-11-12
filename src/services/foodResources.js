@@ -4,7 +4,7 @@
 //The city allows for a small amount of requests without a key, so it is not needed for now
 
 import ZIP_CENTERS from '../data/zipCenters.json'
-const API_URL = 'https://data.seattle.gov/resource/kkzf-ntnu.json';
+const API_URL = 'https://data.seattle.gov/resource/kkzf-ntnu.json?$select=*,:id';
 
 export async function loadResources() {
     const response = await fetch(API_URL);
@@ -17,23 +17,73 @@ export async function loadResources() {
     return rows.map(toResource);
 }
 
+function parseCoordinate(value, limit) {
+  if (typeof value !== 'number' && typeof value !== 'string') {
+    return null;
+  }
+  if (typeof value === 'string' && value.trim() === '') {
+    return null;
+  }
+  const coordinate = Number(value);
+  if (!Number.isFinite(coordinate) || coordinate < -limit || coordinate > limit) {
+    return null;
+  }
+  return coordinate;
+}
+
+export function hasResourceCoordinates(point) {
+  if (!point) {
+    return false;
+  }
+  return Number.isFinite(point.lat) && Number.isFinite(point.lng) &&
+    point.lat >= -90 && point.lat <= 90 &&
+    point.lng >= -180 && point.lng <= 180;
+}
+
+function compareDistances(first, second) {
+  const firstIsValid = Number.isFinite(first) && first >= 0;
+  const secondIsValid = Number.isFinite(second) && second >= 0;
+  if (!firstIsValid && !secondIsValid) {
+    return 0;
+  }
+  if (!firstIsValid) {
+    return 1;
+  }
+  if (!secondIsValid) {
+    return -1;
+  }
+  return first - second;
+}
+
 export function toResource(row) {
     return {
-        name: row.location,
-        agency: row.agency,
-        type: row.food_resource_type ?? '',
-        status: row.operational_status,
-        whoTheyServe: row.who_they_serve,
-        address: row.address,
-        zip: getZip(row.address),
-        lat: Number(row.latitude),
-        lng: Number(row.longitude),
-        phone: cleanPhone(row.phone_number),
-        website: row.website ?? null,
-        days: getDays(row.days_hours),
-        photo: null,
-        distance: null,
+      id: row[':id'],
+      name: row.location,
+      agency: row.agency,
+      type: row.food_resource_type ?? '',
+      status: row.operational_status,
+      whoTheyServe: row.who_they_serve,
+      address: row.address,
+      zip: getZip(row.address),
+      lat: parseCoordinate(row.latitude, 90),
+      lng: parseCoordinate(row.longitude, 180),
+      phone: cleanPhone(row.phone_number),
+      website: getWebsite(row.website),
+      days: getDays(row.days_hours),
+      photo: null,
+      distance: null,
     };
+}
+
+function getWebsite(website) {
+    if (!website || typeof website.url !== 'string') {
+        return null;
+    }
+    const url = website.url;
+    if (url.indexOf('https://') === 0 || url.indexOf('http://') === 0) {
+        return url;
+    }
+    return null;
 }
 
 function cleanPhone(phone) {
@@ -114,6 +164,9 @@ export function applyFilters(resources, selectedType, selectedDay) {
 }
 
 export function milesBetween(pointA, pointB) {
+  if (!hasResourceCoordinates(pointA) || !hasResourceCoordinates(pointB)) {
+    return null;
+  }
   const northSouthMiles = (pointA.lat - pointB.lat) * 69;
   const eastWestMiles = (pointA.lng - pointB.lng) * 46.5;
   return Math.sqrt(northSouthMiles ** 2 + eastWestMiles ** 2);
@@ -122,16 +175,14 @@ export function milesBetween(pointA, pointB) {
 export function addDistances(resources, searchedZip) {
   const center = ZIP_CENTERS[searchedZip];
   for (const resource of resources) {
-    if (center) {
-      resource.distance = milesBetween(center, resource);
-    } else {
-      resource.distance = null;
-    }
+    resource.distance = milesBetween(center, resource);
   }
 }
 
 export function sortByDistance(resources) {
-  return [...resources].sort((a, b) => (a.distance || 0) - (b.distance || 0));
+  return [...resources].sort((a, b) => {
+    return compareDistances(a.distance, b.distance);
+  });
 }
 
 function getTodayName() {
@@ -160,17 +211,20 @@ export function sortByRelevance(resources, selectedDay) {
     if (scoreA !== scoreB) {
       return scoreB - scoreA; // Higher score first.
     }
-    return (a.distance || 0) - (b.distance || 0); // Same score: nearer first.
+    return compareDistances(a.distance, b.distance);
   });
 }
 
 export function findNearZip(resources, zip, maxMiles) {
   const center = ZIP_CENTERS[zip];
-  if (!center) {
+  if (!hasResourceCoordinates(center)) {
     return findByZip(resources, zip);
   }
-  return resources.filter(
-    (resource) => resource.zip === zip || milesBetween(center, resource) <= maxMiles);
+  return resources.filter((resource) => {
+    if (resource.zip === zip) {
+      return true;
+    }
+    const distance = milesBetween(center, resource);
+    return Number.isFinite(distance) && distance <= maxMiles;
+  });
 }
-
-
