@@ -80,7 +80,6 @@ function ResourceDetailsContent({ resourceId, backTo }) {
                     <p>{resource.whoTheyServe || "Information not available."}</p>
                     <h2>Hours of operation</h2>
                     {resource.days.length > 0 && <p>Open days: {resource.days.join(', ')}</p>}
-                    <p>Information not available.</p>
                 </section>
             </div>
         </main>
