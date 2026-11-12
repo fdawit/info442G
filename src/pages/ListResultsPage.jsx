@@ -88,8 +88,12 @@ export default function ListResultsPage() {
             {loading &&  <p>Loading...</p>}
             {loadError && <p>{loadError}</p>}
             {!loading && !loadError && searchedZip === '' && (<p>Enter a ZIP code to find food near you.</p>)}
-            {isMapView && <ResourceMap zip={searchedZip} results={results} />}
-            {!loading && !loadError && searchedZip !== '' && (<ResultsList zip={searchedZip} results={results} />)}
+            {!loading && !loadError && searchedZip !== '' && (
+                <div className={isMapView ? "food-map-results" : ""}>
+                    <ResultsList zip={searchedZip} results={results} />
+                    {isMapView && <ResourceMap zip={searchedZip} results={results} />}
+                </div>
+            )}
         </main>
     );
 }

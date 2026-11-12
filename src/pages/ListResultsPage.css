@@ -37,3 +37,25 @@
   background: #333333;
   color: white;
 }
+
+.food-map-results {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.food-map-results > section {
+  flex: 1;
+  min-width: 0;
+}
+
+.food-map-results .results-grid {
+  grid-template-columns: 1fr;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.food-map-results > .resource-map {
+  flex: 2;
+  min-width: 0;
+}
