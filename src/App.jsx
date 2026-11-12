@@ -17,6 +17,7 @@ export default function App() {
         <Route path="/benefits-check" element={<BenefitsCheckPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/resource-details" element={<ResourceDetailsPage />} />
+        <Route path="/resource-details/:resourceId" element={<ResourceDetailsPage />} />
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
