@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router";
-import { loadResources } from "../services/foodResources";
+import { loadResources, hasResourceCoordinates } from "../services/foodResources";
+import ResourceMap from "../components/ResourceMap";
 import "./ResourceDetailsPage.css";
 
 export default function ResourceDetailsPage() {
@@ -53,7 +54,9 @@ function ResourceDetailsContent({ resourceId, backTo }) {
             <Link to={backTo}>Back to results</Link>
             <div className="resource-details-columns">
                 <section>
-                    <div className="resource-details-map">TO DO</div>
+                    {hasResourceCoordinates(resource) ? (
+                        <ResourceMap center={resource} results={[resource]} />
+                    ) : <p>Map location not available.</p>}
                     <h1>{resource.name}</h1>
                     <p>{resource.type || "Information not available."}</p>
                     <p>

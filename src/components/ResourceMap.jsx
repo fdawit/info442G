@@ -5,7 +5,7 @@ import ZIP_CENTERS from "../data/zipCenters.json";
 import "./ResourceMap.css";
 import { hasResourceCoordinates } from "../services/foodResources";
 
-export default function ResourceMap({ zip, results, onSelect, selectedResource }) {
+export default function ResourceMap({ zip, results, onSelect, selectedResource, center }) {
     const elementRef = useRef(null);
     const mapRef = useRef(null);
     const [mapError, setMapError] = useState(false);
@@ -43,12 +43,15 @@ export default function ResourceMap({ zip, results, onSelect, selectedResource }
             return;
         }
 
-        let center = ZIP_CENTERS[zip];
-        if (!hasResourceCoordinates(center)) {
-            center = { lat: 47.6062, lng: -122.3321 };
+        let mapCenter = center;
+        if (!hasResourceCoordinates(mapCenter)) {
+            mapCenter = ZIP_CENTERS[zip];
         }
-        mapRef.current.setView([center.lat, center.lng], 12);
-    }, [zip, apiKey]);
+        if (!hasResourceCoordinates(mapCenter)) {
+            mapCenter = { lat: 47.6062, lng: -122.3321 };
+        }
+        mapRef.current.setView([mapCenter.lat, mapCenter.lng], 12);
+    }, [zip, apiKey, center]);
 
     useEffect(() => {
         const map = mapRef.current;
@@ -70,9 +73,11 @@ export default function ResourceMap({ zip, results, onSelect, selectedResource }
                 icon,
                 title: resource.name || "Resource"
             }).addTo(markers);
-            marker.on("click", () => {
-                onSelect(resource);
-            });
+            if (typeof onSelect === 'function') {
+                marker.on("click", () => {
+                    onSelect(resource);
+                });
+            }
         });
         return () => {
             markers.remove();

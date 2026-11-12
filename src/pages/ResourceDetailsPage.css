@@ -9,12 +9,8 @@
   min-width: 0;
 }
 
-.resource-details-map {
-  min-height: 240px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #eeeeee;
+.resource-details-page .resource-map-canvas {
+  height: 260px;
 }
 
 .resource-details-columns h2 {
