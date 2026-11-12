@@ -14,8 +14,7 @@ const INITIAL_FILTERS = {
   weekday: "",
   time: "",
   sortBy: "distance",
-  foodNeeds: [],
-  householdTags: []
+  preferences: []
 };
 
 function formatDistance(value) {
@@ -87,12 +86,11 @@ export function BenefitsDemoPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const [category, setCategory] = useState("all");
-  const [weekday, setWeekday] = useState("");
-  const [time, setTime] = useState("");
-  const [sortBy, setSortBy] = useState("distance");
-  const [foodNeeds, setFoodNeeds] = useState([]);
-  const [householdTags, setHouseholdTags] = useState([]);
+  const [category, setCategory] = useState(INITIAL_FILTERS.category);
+  const [weekday, setWeekday] = useState(INITIAL_FILTERS.weekday);
+  const [time, setTime] = useState(INITIAL_FILTERS.time);
+  const [sortBy, setSortBy] = useState(INITIAL_FILTERS.sortBy);
+  const [preferences, setPreferences] = useState(INITIAL_FILTERS.preferences);
   const [appliedFilters, setAppliedFilters] = useState(INITIAL_FILTERS);
 
   function currentFilters() {
@@ -101,8 +99,7 @@ export function BenefitsDemoPage() {
       weekday,
       time,
       sortBy,
-      foodNeeds: [...foodNeeds],
-      householdTags: [...householdTags]
+      preferences
     };
   }
 
@@ -264,17 +261,10 @@ export function BenefitsDemoPage() {
           </p>
 
           <ChoiceGroup
-            title="Food preferences"
-            options={FOOD_OPTIONS}
-            values={foodNeeds}
-            onChange={setFoodNeeds}
-          />
-
-          <ChoiceGroup
-            title="Household preferences"
-            options={HOUSEHOLD_OPTIONS}
-            values={householdTags}
-            onChange={setHouseholdTags}
+            title="Preferences"
+            options={[...FOOD_OPTIONS, ...HOUSEHOLD_OPTIONS]}
+            values={preferences}
+            onChange={setPreferences}
           />
 
           <button type="submit">Apply</button>

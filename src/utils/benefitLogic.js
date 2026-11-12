@@ -127,10 +127,8 @@ export function matchesHours(locationId, hours, weekday, time) {
 }
 
 export function selectBenefits(data, filters, distances) {
-  const choices = [...filters.foodNeeds, ...filters.householdTags];
-
-  const selectedTags = choices.filter((tag, index) => {
-    return choices.indexOf(tag) === index;
+  const selectedTags = filters.preferences.filter((tag, index) => {
+    return filters.preferences.indexOf(tag) === index;
   });
 
   const programs = data.programs.filter((program) => {
