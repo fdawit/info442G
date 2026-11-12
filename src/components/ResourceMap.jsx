@@ -11,7 +11,7 @@ function hasMapCoordinates(resource) {
         resource.lng >= -180 && resource.lng <= 180;
 }
 
-export default function ResourceMap({ zip, results }) {
+export default function ResourceMap({ zip, results, onSelect, selectedResource }) {
     const elementRef = useRef(null);
     const mapRef = useRef(null);
     const [mapError, setMapError] = useState(false);
@@ -63,18 +63,21 @@ export default function ResourceMap({ zip, results }) {
             if (!hasMapCoordinates(resource)) {
                 return;
             }
-            L.circleMarker([resource.lat, resource.lng], {
+            const marker = L.circleMarker([resource.lat, resource.lng], {
                 radius: 8,
                 color: "#ffffff",
                 weight: 2,
                 fillColor: "#195b40",
                 fillOpacity: 1
             }).addTo(markers);
+            marker.on("click", () => {
+                onSelect(resource);
+            });
         });
         return () => {
             markers.remove();
         };
-    }, [results, apiKey]);
+    }, [results, onSelect, apiKey]);
 
     const hiddenCount = results.filter((resource) => {
         return !hasMapCoordinates(resource);
@@ -83,6 +86,11 @@ export default function ResourceMap({ zip, results }) {
 
     return (
         <div className="resource-map">
+            {results.indexOf(selectedResource) !== -1 && (
+                <p role="status">
+                    {selectedResource.name} · {selectedResource.address} · View details: TO DO
+                </p>
+            )}
             {(!apiKey || mapError) && (
                 <p role="alert">Unable to load the map. Please try again.</p>
             )}

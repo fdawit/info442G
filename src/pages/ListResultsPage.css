@@ -59,3 +59,8 @@
   flex: 2;
   min-width: 0;
 }
+
+.resource-selected {
+  outline: 3px solid #195b40;
+  outline-offset: -3px;
+}

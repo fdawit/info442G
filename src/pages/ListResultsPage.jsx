@@ -13,6 +13,7 @@ export default function ListResultsPage() {
     const [allResources, setAllResources] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loadError, setLoadError] = useState('');
+    const [selectedResource, setSelectedResource] = useState(null);
     const [foodType, setFoodType] = useState('All Food');
     const [day, setDay] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
@@ -36,9 +37,11 @@ export default function ListResultsPage() {
     function handleApplyFilters(newFoodType, newDay) {
         setFoodType(newFoodType);
         setDay(newDay);
+        setSelectedResource(null);
     }
 
     function handleSearch(zip) {
+        setSelectedResource(null);
         const parameters = new URLSearchParams(searchParams);
         parameters.set("zip", zip);
         setSearchParams(parameters, { replace: zip === searchedZip });
@@ -90,15 +93,15 @@ export default function ListResultsPage() {
             {!loading && !loadError && searchedZip === '' && (<p>Enter a ZIP code to find food near you.</p>)}
             {!loading && !loadError && searchedZip !== '' && (
                 <div className={isMapView ? "food-map-results" : ""}>
-                    <ResultsList zip={searchedZip} results={results} />
-                    {isMapView && <ResourceMap zip={searchedZip} results={results} />}
+                    <ResultsList zip={searchedZip} results={results} selectedResource={selectedResource} />
+                    {isMapView && <ResourceMap zip={searchedZip} results={results} onSelect={setSelectedResource} selectedResource={selectedResource} />}
                 </div>
             )}
         </main>
     );
 }
 
-function ResultsList({ zip, results }) {
+function ResultsList({ zip, results, selectedResource }) {
 
     return (
         <section>
@@ -111,11 +114,12 @@ function ResultsList({ zip, results }) {
             )}
             <ul className="results-grid">
                 {results.map((resource) => (
-                    <li key={resource.name + resource.address}>
+                    <li key={resource.name + resource.address} className={resource === selectedResource ? "resource-selected" : ""}>
                         <ResourceCard name={resource.name} category={resource.type} address={resource.address} photo={resource.photo}>
                             <p>Status: {resource.status || 'Unknown'}</p>
                             <p>Open: {resource.days.length > 0 ? resource.days.join(', ') : 'Days not listed'}</p>
                             <p>Distance: {resource.distance === null ? 'Distance not available' : resource.distance.toFixed(1) + ' mi'}</p>
+                            <p>View details: TO DO</p>
                         </ResourceCard>
                     </li>
                 ))}
