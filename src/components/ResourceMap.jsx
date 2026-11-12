@@ -59,16 +59,19 @@ export default function ResourceMap({ zip, results, onSelect, selectedResource }
             return;
         }
         const markers = L.layerGroup().addTo(map);
-        results.forEach((resource) => {
+        results.forEach((resource, index) => {
             if (!hasMapCoordinates(resource)) {
                 return;
             }
-            const marker = L.circleMarker([resource.lat, resource.lng], {
-                radius: 8,
-                color: "#ffffff",
-                weight: 2,
-                fillColor: "#195b40",
-                fillOpacity: 1
+            const icon = L.divIcon({
+                className: "resource-map-marker",
+                html: String(index + 1),
+                iconSize: [28, 28],
+                iconAnchor: [14, 14]
+            });
+            const marker = L.marker([resource.lat, resource.lng], {
+                icon,
+                title: resource.name || "Resource"
             }).addTo(markers);
             marker.on("click", () => {
                 onSelect(resource);

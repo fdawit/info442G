@@ -113,8 +113,9 @@ function ResultsList({ zip, results, selectedResource }) {
                 <p>No resources found. Please try another zip code or change your filters.</p>
             )}
             <ul className="results-grid">
-                {results.map((resource) => (
+                {results.map((resource, index) => (
                     <li key={resource.name + resource.address} className={resource === selectedResource ? "resource-selected" : ""}>
+                        <p>Result {index + 1}</p>
                         <ResourceCard name={resource.name} category={resource.type} address={resource.address} photo={resource.photo}>
                             <p>Status: {resource.status || 'Unknown'}</p>
                             <p>Open: {resource.days.length > 0 ? resource.days.join(', ') : 'Days not listed'}</p>

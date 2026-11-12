@@ -2,3 +2,14 @@
   height: 480px;
   width: 100%;
 }
+
+.resource-map-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  border-radius: 50%;
+  background: #195b40;
+  color: white;
+  font-weight: bold;
+}
