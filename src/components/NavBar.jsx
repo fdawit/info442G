@@ -21,9 +21,6 @@ export default function NavBar() {
           <li><NavLink to="/" end>Home</NavLink></li>
           <li><NavLink to="/benefits-check">Benefits Help</NavLink></li>
           <li><NavLink to="/about">About</NavLink></li>
-          <li>
-            <NavLink to="/benefits-test">Benefits test (testing only)</NavLink> {/*Remove when done testing*/}
-          </li>
         </ul>
       </nav>
 
