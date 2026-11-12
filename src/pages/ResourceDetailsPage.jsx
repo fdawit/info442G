@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useParams, useSearchParams } from "react-router";
 import { loadResources } from "../services/foodResources";
 import "./ResourceDetailsPage.css";
 
 export default function ResourceDetailsPage() {
     const params = useParams();
-    return <ResourceDetailsContent key={params.resourceId} resourceId={params.resourceId} />;
+    const [searchParams] = useSearchParams();
+    const query = searchParams.toString();
+    const backTo = query ? '/?' + query : '/';
+    return <ResourceDetailsContent key={params.resourceId} resourceId={params.resourceId} backTo={backTo} />;
 }
 
-function ResourceDetailsContent({ resourceId }) {
+function ResourceDetailsContent({ resourceId, backTo }) {
     const [resource, setResource] = useState(null);
     const [loading, setLoading] = useState(resourceId !== undefined);
     const [loadError, setLoadError] = useState(false);
@@ -37,17 +40,17 @@ function ResourceDetailsContent({ resourceId }) {
     }, [resourceId]);
 
     if (loading) {
-        return <main><p>Loading...</p></main>;
+        return <main><Link to={backTo}>Back to results</Link><p>Loading...</p></main>;
     }
     if (loadError) {
-        return <main><Link to="/">Back to results</Link><p role="alert">Unable to load resource details. Please try again.</p></main>;
+        return <main><Link to={backTo}>Back to results</Link><p role="alert">Unable to load resource details. Please try again.</p></main>;
     }
     if (!resource) {
-        return <main><Link to="/">Back to results</Link><h1>404</h1><p>Resource not found.</p></main>;
+        return <main><Link to={backTo}>Back to results</Link><h1>404</h1><p>Resource not found.</p></main>;
     }
     return (
         <main className="resource-details-page">
-            <Link to="/">Back to results</Link>
+            <Link to={backTo}>Back to results</Link>
             <div className="resource-details-columns">
                 <section>
                     <div className="resource-details-map">TO DO</div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import ZipSearchBar from '../components/ZipSearchBar'
 import FilterPanel from '../components/FilterPanel';
 import SortMenu from '../components/SortMenu';
@@ -109,7 +109,7 @@ export default function ListResultsPage() {
             {!loading && !loadError && searchedZip === '' && (<p>Enter a ZIP code to find food near you.</p>)}
             {!loading && !loadError && hasValidZip && (
                 <div className={isMapView ? "food-map-results" : ""}>
-                    <ResultsList zip={searchedZip} results={results} selectedResource={selectedResource} />
+                    <ResultsList zip={searchedZip} results={results} selectedResource={selectedResource} searchQuery={searchParams.toString()} />
                     {isMapView && <ResourceMap zip={searchedZip} results={results} onSelect={setSelectedResource} selectedResource={selectedResource} />}
                 </div>
             )}
@@ -117,7 +117,7 @@ export default function ListResultsPage() {
     );
 }
 
-function ResultsList({ zip, results, selectedResource }) {
+function ResultsList({ zip, results, selectedResource, searchQuery }) {
 
     return (
         <section>
@@ -130,13 +130,13 @@ function ResultsList({ zip, results, selectedResource }) {
             )}
             <ul className="results-grid">
                 {results.map((resource, index) => (
-                    <li key={resource.name + resource.address} className={resource === selectedResource ? "resource-selected" : ""}>
+                    <li key={resource.id} className={resource === selectedResource ? "resource-selected" : ""}>
                         <p>Result {index + 1}</p>
                         <ResourceCard name={resource.name} category={resource.type} address={resource.address} photo={resource.photo}>
                             <p>Status: {resource.status || 'Unknown'}</p>
                             <p>Open: {resource.days.length > 0 ? resource.days.join(', ') : 'Days not listed'}</p>
                             <p>Distance: {resource.distance === null ? 'Distance not available' : resource.distance.toFixed(1) + ' mi'}</p>
-                            <p>View details: TO DO</p>
+                            <p><Link to={"/resource-details/" + encodeURIComponent(resource.id) + "?" + searchQuery}>View details</Link></p>
                         </ResourceCard>
                     </li>
                 ))}
