@@ -63,15 +63,12 @@ export default function ListResultsPage() {
             {loading &&  <p>Loading...</p>}
             {loadError && <p>{loadError}</p>}
             {!loading && !loadError && searchedZip === '' && (<p>Enter a ZIP code to find food near you.</p>)}
-            {!loading && !loadError && searchedZip !== '' && (<ResultsList zip={searchedZip} results={results} />)}
+            {!loading && !loadError && searchedZip !== '' && (<ResultsList zip={searchedZip} results={results} foodType={foodType} day={day} />)}
         </main>
     );
 }
 
-function ResultsList({ zip, results }) {
-    if (results.length === 0) {
-        return <p>No resources found. Please try another zip code or change your filters.</p>;
-    }
+function ResultsList({ zip, results, foodType, day }) {
 
     return (
         <section>
@@ -79,13 +76,17 @@ function ResultsList({ zip, results }) {
             <p>
                 {results.length} {results.length === 1 ? 'place' : 'places'} found.
             </p>
+            <p>{foodType}{day && " · " + day}</p>
+            {results.length === 0 && (
+                <p>No resources found. Please try another zip code or change your filters.</p>
+            )}
             <ul className="results-grid">
                 {results.map((resource) => (
                     <li key={resource.name + resource.address}>
                         <ResourceCard name={resource.name} category={resource.type} address={resource.address} photo={resource.photo}>
                             <p>Status: {resource.status || 'Unknown'}</p>
                             <p>Open: {resource.days.length > 0 ? resource.days.join(', ') : 'Days not listed'}</p>
-                            <p>{resource.distance === null ? 'Distance not available' : resource.distance.toFixed(1) + ' mi'}</p>
+                            <p>Distance: {resource.distance === null ? 'Distance not available' : resource.distance.toFixed(1) + ' mi'}</p>
                         </ResourceCard>
                     </li>
                 ))}
