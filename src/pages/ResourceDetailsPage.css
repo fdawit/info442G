@@ -20,3 +20,9 @@
 .resource-details-columns h2 {
   margin-top: 28px;
 }
+
+@media (max-width: 700px) {
+  .resource-details-columns {
+    flex-direction: column;
+  }
+}

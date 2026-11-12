@@ -64,3 +64,22 @@
   outline: 3px solid #195b40;
   outline-offset: -3px;
 }
+
+@media (max-width: 700px) {
+  .food-search-home {
+    padding-top: 24px;
+  }
+
+  .food-map-results {
+    flex-direction: column;
+  }
+
+  .food-map-results > section,
+  .food-map-results > .resource-map {
+    width: 100%;
+  }
+
+  .food-search-page .results-grid {
+    grid-template-columns: 1fr;
+  }
+}
