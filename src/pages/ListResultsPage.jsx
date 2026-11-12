@@ -63,12 +63,12 @@ export default function ListResultsPage() {
             {loading &&  <p>Loading...</p>}
             {loadError && <p>{loadError}</p>}
             {!loading && !loadError && searchedZip === '' && (<p>Enter a ZIP code to find food near you.</p>)}
-            {!loading && !loadError && searchedZip !== '' && (<ResultsList zip={searchedZip} results={results} foodType={foodType} day={day} />)}
+            {!loading && !loadError && searchedZip !== '' && (<ResultsList zip={searchedZip} results={results} />)}
         </main>
     );
 }
 
-function ResultsList({ zip, results, foodType, day }) {
+function ResultsList({ zip, results }) {
 
     return (
         <section>
@@ -76,7 +76,6 @@ function ResultsList({ zip, results, foodType, day }) {
             <p>
                 {results.length} {results.length === 1 ? 'place' : 'places'} found.
             </p>
-            <p>{foodType}{day && " · " + day}</p>
             {results.length === 0 && (
                 <p>No resources found. Please try another zip code or change your filters.</p>
             )}
