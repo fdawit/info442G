@@ -4,6 +4,7 @@ import BenefitsCheckPage from './pages/BenefitsCheckPage';
 import AboutPage from './pages/AboutPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ListResultsPage from './pages/ListResultsPage';
+import Footer from './components/Footer';
 
 import { BenefitsDemoPage } from "./pages/BenefitsDemoPage.jsx"; //Delete once done testing
 
@@ -21,6 +22,8 @@ export default function App() {
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+
+      <Footer />
     </BrowserRouter>
   );
 }
