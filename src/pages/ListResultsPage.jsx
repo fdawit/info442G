@@ -1,11 +1,11 @@
-//Issue #4(Milestone1) version of the results page, to show search by zip, then filter by type and day
-
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import ZipSearchBar from '../components/ZipSearchBar'
 import FilterPanel from '../components/FilterPanel';
 import SortMenu from '../components/SortMenu';
+import ResourceCard from '../components/ResourceCard';
 import { loadResources, findNearZip, applyFilters, addDistances, sortByDistance, sortByRelevance, } from '../services/foodResources';
+import './ListResultsPage.css';
 
 
 export default function ListResultsPage() {
@@ -74,14 +74,14 @@ function ResultsList({ zip, results }) {
             <p>
                 {results.length} {results.length === 1 ? 'place' : 'places'} found.
             </p>
-            <ul>
+            <ul className="results-grid">
                 {results.map((resource) => (
                     <li key={resource.name + resource.address}>
-                        <strong>{resource.name}</strong>
-                        <div>{resource.address}</div>
-                        <div>{resource.type} | {resource.status}</div>
-                        <div>Open: {resource.days.length > 0 ? resource.days.join(', ') : 'Days not listed'}</div>
-                        <div>{resource.distance === null ? 'Distance not available' : resource.distance.toFixed(1) + ' mi'}</div>
+                        <ResourceCard name={resource.name} category={resource.type} address={resource.address} photo={resource.photo}>
+                            <p>Status: {resource.status || 'Unknown'}</p>
+                            <p>Open: {resource.days.length > 0 ? resource.days.join(', ') : 'Days not listed'}</p>
+                            <p>{resource.distance === null ? 'Distance not available' : resource.distance.toFixed(1) + ' mi'}</p>
+                        </ResourceCard>
                     </li>
                 ))}
             </ul>

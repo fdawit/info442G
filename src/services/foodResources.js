@@ -31,6 +31,7 @@ export function toResource(row) {
         phone: cleanPhone(row.phone_number),
         website: row.website ?? null,
         days: getDays(row.days_hours),
+        photo: null,
         distance: null,
     };
 }

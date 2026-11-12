@@ -1,0 +1,24 @@
+/*Layout for the results listing card*/
+
+.resource-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%; 
+  border: 1px solid #cccccc; 
+}
+
+.resource-card-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.resource-card-body {
+  padding: 12px;
+}
+
+.resource-card-name,
+.resource-card-body p {
+  margin: 0 0 4px;
+}
