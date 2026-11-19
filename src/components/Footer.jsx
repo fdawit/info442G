@@ -3,7 +3,7 @@
 import { Link } from 'react-router';
 import './Footer.css';
 
-const CONTACT_PHONE = '206-555-5555';
+const CONTACT_PHONE = '206-555-0100';
 const CONTACT_EMAIL = 'fdawit@uw.edu';
 
 const USEFUL_LINKS = [
