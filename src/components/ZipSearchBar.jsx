@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import { isFiveDigits } from '../services/foodResources'
+import { rememberZip } from '../utils/storage';
 import './ZipSearchBar.css'
 
 export default function ZipSearchBar({ id = 'zip-input', initialZip = '', onSearch }) {
@@ -15,6 +16,7 @@ export default function ZipSearchBar({ id = 'zip-input', initialZip = '', onSear
 
         if (isFiveDigits(text.trim())) {
         setError('');
+        rememberZip(text.trim());
         onSearch(text.trim());
         }
     }
@@ -29,6 +31,7 @@ export default function ZipSearchBar({ id = 'zip-input', initialZip = '', onSear
         }
 
         setError('')
+        rememberZip(zip);
         onSearch(zip)
     }
 
