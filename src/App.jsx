@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router';
 import NavBar from './components/NavBar';
 import BenefitsCheckPage from './pages/BenefitsCheckPage';
+import BenefitsResultsPage from './pages/BenefitsResultsPage';
 import AboutPage from './pages/AboutPage';
 import NotFoundPage from './pages/NotFoundPage';
 import ListResultsPage from './pages/ListResultsPage';
@@ -15,6 +16,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<ListResultsPage />} />
         <Route path="/benefits-check" element={<BenefitsCheckPage />} />
+        <Route path="/benefits-results" element={<BenefitsResultsPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/resource-details" element={<ResourceDetailsPage />} />
         <Route path="/resource-details/:resourceId" element={<ResourceDetailsPage />} />
