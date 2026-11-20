@@ -1,0 +1,12 @@
+/* Layout for the questionnaire */
+
+.choice-question label {
+  display: block;
+  margin: 6px 0;
+}
+
+.question-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
