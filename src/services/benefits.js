@@ -100,3 +100,46 @@ export async function searchBenefits(input) {
 
   return { zip, data, distances };
 }
+
+export async function loadProgramDetails(programId, locationId) {
+  const client = getSupabase();
+  const programs = getRows(await client.from("benefit_programs")
+    .select("*").eq("id", programId));
+  
+  if (programs.length === 0) {
+    return null;
+  }
+
+  const program = programs[0];
+  const organizations = getRows(await client.from("benefit_organizations")
+    .select("*").eq("id", program.organization_id));
+  const links = getRows(await client.from("benefit_program_locations")
+    .select("*").eq("program_id", programId));
+
+  let chosenId = null;
+
+  if (links.some((link) => link.location_id === locationId)) {
+    chosenId = locationId;
+  } else if (links.length > 0) {
+    chosenId = links[0].location_id;
+  }
+
+  let location = null;
+  let hours = [];
+
+  if (chosenId) {
+    const locations = getRows(await client.from("benefit_locations")
+      .select("*").eq("id", chosenId));
+    location = locations[0] || null;
+
+    hours = getRows(await client.from("benefit_opening_hours")
+      .select("*").eq("location_id", chosenId));
+  }
+
+  return {
+    program,
+    organization: organizations[0] || null,
+    location,
+    hours
+  };
+}

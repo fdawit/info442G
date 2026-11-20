@@ -1,0 +1,20 @@
+/* Layout for the program page */
+
+.benefit-program-photo {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  margin: 12px 0;
+}
+
+.benefit-program-map {
+  max-width: 640px;
+  cursor: pointer;
+}
+
+.benefit-program-contact, .benefit-program-hours {
+  padding-left: 0;
+  list-style: none;
+}
