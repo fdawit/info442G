@@ -15,15 +15,20 @@ function getRows(result) {
 }
 
 export async function loadBenefits(zip) {
-  if (!isZip(zip)) {
+  if (zip !== "" && !isZip(zip)) {
     throw new Error("Enter a five-digit ZIP code.");
   }
 
   const client = getSupabase();
-  const zipcode = zip.trim();
 
-  const locationResult = await client.from("benefit_locations")
-    .select("*").eq("zipcode", zipcode).eq("searchable", true);
+  let locationQuery = client.from("benefit_locations")
+    .select("*").eq("searchable", true);
+  
+  if (zip !== "") {
+    locationQuery = locationQuery.eq("zipcode", zip.trim());
+  }
+
+  const locationResult = await locationQuery;
 
   const data = {
     locations: getRows(locationResult),
