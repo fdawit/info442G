@@ -30,5 +30,8 @@ export function hasAnswer(value) {
   if (Array.isArray(value)) {
     return value.length > 0;
   }
+  if (value && typeof value === 'object') {
+    return Boolean(value.location) || (value.zip || '').trim() !== '';
+  }
   return value !== undefined && value !== null && value !== '';
 }
