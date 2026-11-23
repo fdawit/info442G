@@ -8,6 +8,11 @@ This will eventually cover fonts, colots, buttons, and layout in Sprint 2  */
 
 body {
   margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #303030;
+  background: #fff;
 }
 
 /* The nav bar, the page, and the footer should stack top to bottom
@@ -21,7 +26,38 @@ If the page is short, min-height keeps the footer at the bottom */
 main {
   flex: 1;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1248px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 40px 24px 64px;
+}
+
+h1, h2, h3 {
+  margin: 0 0 16px;
+  line-height: 1.25;
+}
+h1 {
+  font-size: 32px;
+}
+h2 {
+  font-size: 24px;
+}
+h3 {
+  font-size: 20px;
+}
+p {
+  margin: 0 0 16px;
+}
+a {
+  color: inherit;
+}
+main, .footer {
+  overflow-wrap: break-word;
+}
+@media (max-width: 700px) {
+  main {
+    padding: 28px 16px 40px;
+  }
+  h1 {
+    font-size: 28px;
+  }
 }
