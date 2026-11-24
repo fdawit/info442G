@@ -213,6 +213,7 @@
   align-items: flex-start;
   gap: 12px;
   padding: 16px;
+  cursor: pointer;
 }
 
 .food-map-results .resource-card-photo {
@@ -228,6 +229,8 @@
 }
 
 .food-map-results .resource-card-name {
+  display: flex;
+  align-items: flex-start;
   font-size: 18px;
 }
 
@@ -250,4 +253,21 @@
 
 .food-search-results #filter-options {
   margin-bottom: 16px;
+}
+
+.food-map-results .resource-select-button {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  word-break: break-word;
+}
+
+.food-map-results .resource-select-button:hover {
+  background: transparent;
+  color: inherit;
 }

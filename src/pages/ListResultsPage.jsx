@@ -132,7 +132,7 @@ export default function ListResultsPage() {
             )}
             {!loading && !loadError && hasValidZip && (
                 <div className={isMapView ? "food-map-results" : "food-list-results"}>
-                    <ResultsList results={results} selectedResource={selectedResource} searchQuery={searchParams.toString()} isMapView={isMapView} />
+                    <ResultsList results={results} selectedResource={selectedResource} searchQuery={searchParams.toString()} isMapView={isMapView} onSelect={setSelectedResource} />
                     {isMapView && <ResourceMap zip={searchedZip} results={results} onSelect={setSelectedResource} selectedResource={selectedResource} searchQuery={searchParams.toString()} />}
                 </div>
             )}
@@ -140,7 +140,7 @@ export default function ListResultsPage() {
     );
 }
 
-function ResultsList({ results, selectedResource, searchQuery, isMapView }) {
+function ResultsList({ results, selectedResource, searchQuery, isMapView, onSelect }) {
 
     return (
         <section>
@@ -151,10 +151,15 @@ function ResultsList({ results, selectedResource, searchQuery, isMapView }) {
                 {results.map((resource, index) => (
                     <li key={resource.id} className={isMapView && selectedResource && resource.id === selectedResource.id ? "resource-selected" : ""}>
                         <ResourceCard name={resource.name} category={resource.type} address={resource.address} photo={resource.photo}
-                            resultNumber={isMapView ? index + 1 : null}>
+                            resultNumber={isMapView ? index + 1 : null}
+                            onSelect={isMapView ? () => onSelect(resource) : undefined}
+                            selected={selectedResource ? resource.id === selectedResource.id : false}>
                             <div className="food-card-actions">
                                 <p>Distance: {resource.distance === null ? 'Distance not available' : resource.distance.toFixed(1) + ' mi'}</p>
-                                <Link className="food-details-link" to={"/resource-details/" + encodeURIComponent(resource.id) + "?" + searchQuery}>View details</Link>
+                                <Link className="food-details-link" to={"/resource-details/" + encodeURIComponent(resource.id) + "?" + searchQuery}
+                                    onClick={(event) => {
+                                        event.stopPropagation();
+                                    }}>View details</Link>
                             </div>
                         </ResourceCard>
                     </li>
