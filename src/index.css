@@ -247,3 +247,55 @@ input[type="checkbox"], input[type="radio"] {
     padding: 16px;
   }
 }
+
+.resource-card {
+  border: 1px solid #ccc;
+  background: #fff;
+  min-width: 0;
+}
+
+.resource-card-body {
+  overflow-wrap: break-word;
+}
+
+.resource-card-name {
+  font-size: 22px;
+}
+
+.resource-card-body p {
+  margin-bottom: 8px;
+}
+
+.resource-card-category {
+  color: #666;
+}
+
+.results-grid {
+  gap: 24px;
+}
+
+.results-grid > li {
+  min-width: 0;
+}
+
+.results-grid > li > p {
+  margin: 0;
+  padding: 8px 12px;
+  background: #f4f4f4;
+  font-weight: bold;
+}
+
+.benefit-card-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.benefit-card-link:hover .resource-card {
+  border-color: #303030;
+}
+
+@media (max-width: 700px) {
+  .benefit-results {
+    grid-template-columns: 1fr;
+  }
+}
