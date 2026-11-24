@@ -21,7 +21,7 @@ export default function ChoiceQuestion({ question, options, value, onChange }) {
         <fieldset className="choice-question">
             <legend>{question.text}</legend>
             {options.map((option) => (
-                <label key={option.value}>
+                <label className="question-option" key={option.value}>
                 <input
                     type={multiple ? 'checkbox' : 'radio'}
                     name={'question-' + question.number}

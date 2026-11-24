@@ -361,3 +361,74 @@ input[type="checkbox"], input[type="radio"] {
     height: 260px;
   }
 }
+
+.benefits-check-page {
+  max-width: 840px;
+}
+
+.benefits-check-page > p {
+  color: #666;
+}
+
+.benefits-check-page progress {
+  display: block;
+  width: 100%;
+  height: 12px;
+  margin-bottom: 32px;
+  accent-color: #303030;
+}
+
+.choice-question {
+  min-width: 0;
+  margin: 0;
+  padding: 24px;
+  border: 0;
+  background: #f4f4f4;
+}
+
+.choice-question legend {
+  padding: 0;
+  margin-bottom: 16px;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.choice-question .question-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0 0 12px;
+  padding: 14px;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+
+.question-option input {
+  margin: 3px 0 0;
+}
+
+.choice-question > input[type="text"] {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.choice-question > button {
+  margin: 0 8px 12px 0;
+}
+
+.question-buttons {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.question-buttons > :last-child {
+  background: #303030;
+  color: #fff;
+}
+
+@media (max-width: 700px) {
+  .choice-question {
+    padding: 16px;
+  }
+}

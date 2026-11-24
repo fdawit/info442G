@@ -81,7 +81,7 @@ export default function BenefitsCheckPage() {
 
 
   return (
-    <main>
+    <main className="benefits-check-page">
       <h1>Benefits Eligibility Check</h1>
       <p>Question {position + 1} of {path.length}</p>
       <progress value={position + 1} max={path.length}/>
