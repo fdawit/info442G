@@ -40,7 +40,7 @@ export default function ZipSearchBar({ id = 'zip-input', initialZip = '', onSear
             <label htmlFor={id}>ZIP code: </label>
             <input id={id} type="text" inputMode="numeric" value={zipText} onChange={handleChange}/>
             <button type="submit">Search</button>
-            {error && <p className="zip-search-error">{error}</p>}
+            {error && <p className="zip-search-error" role="alert">{error}</p>}
         </form>
     );
 }

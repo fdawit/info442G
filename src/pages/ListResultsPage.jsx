@@ -123,7 +123,7 @@ export default function ListResultsPage() {
             )}
             {searchedZip && !hasValidZip && <p role="alert">Please enter 5-digit zip code.</p>}
             {loading &&  <p>Loading...</p>}
-            {loadError && <p>{loadError}</p>}
+            {loadError && <p role="alert">{loadError}</p>}
             {!loading && !loadError && searchedZip === '' && (<p className="search-hint">Enter a ZIP code to find food near you.</p>)}
             {!loading && !loadError && hasValidZip && (
                 <p className="food-result-count">

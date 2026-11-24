@@ -47,7 +47,7 @@ function ResourceDetailsContent({ resourceId, backTo }) {
         return <main><Link to={backTo}>Back to results</Link><p role="alert">Unable to load resource details. Please try again.</p></main>;
     }
     if (!resource) {
-        return <main><Link to={backTo}>Back to results</Link><h1>404</h1><p>Resource not found.</p></main>;
+        return <main><Link to={backTo}>Back to results</Link><h1>404</h1><p role="alert">Resource not found.</p></main>;
     }
     return (
         <main className="resource-details-page">
