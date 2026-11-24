@@ -93,3 +93,27 @@
     grid-template-columns: 1fr;
   }
 }
+
+.food-search-results .food-search-row > .zip-search {
+  flex: 0 1 420px;
+}
+
+.food-search-results .food-search-row > .form-field {
+  flex: 0 1 180px;
+}
+
+.food-search-results .food-view-buttons {
+  flex: 1;
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .food-search-results .food-search-row > .zip-search,
+  .food-search-results .food-view-buttons {
+    flex-basis: 100%;
+  }
+
+  .food-search-results .food-search-row > .form-field {
+    flex: 1 1 160px;
+  }
+}

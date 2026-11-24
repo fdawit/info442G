@@ -7,8 +7,9 @@ import Dropdown from './Dropdown';
 const FOOD_TYPES = [{value: 'All Food', label: 'All Food'}, {value: 'Raw Food', label: 'Raw Food'}, {value: 'Cooked Food', label: 'Cooked Food'},];
 const DAYS = [{ value: '', label: 'Any day' }, { value: 'Monday', label: 'Monday' }, { value: 'Tuesday', label: 'Tuesday' }, { value: 'Wednesday', label: 'Wednesday' }, { value: 'Thursday', label: 'Thursday' }, { value: 'Friday', label: 'Friday' }, { value: 'Saturday', label: 'Saturday' }, { value: 'Sunday', label: 'Sunday' },];
 
-export default function FilterPanel({ appliedType, appliedDay, onApply, searchZip = '' }) {
-    const [isOpen, setIsOpen] = useState(false);
+export default function FilterPanel({
+    appliedType, appliedDay, onApply, searchZip = '', isOpen, onToggle, showHeader = true
+}) {
     const optionsKey = searchZip + '|' + appliedType + '|' + appliedDay;
 
     let summary = appliedType;
@@ -20,7 +21,9 @@ export default function FilterPanel({ appliedType, appliedDay, onApply, searchZi
 
     return (
         <div className="filter-panel">
-            <button type="button" aria-expanded={isOpen} aria-controls="filter-options" onClick={() => setIsOpen(!isOpen)}> Filters</button>
+            {showHeader && (
+                <button type="button" aria-expanded={isOpen} aria-controls="filter-options" onClick={onToggle}>Filters</button>
+            )}
             <p>Showing: {summary}</p>
             <FilterOptions key={optionsKey} isOpen={isOpen}
                 initialType={appliedType} initialDay={appliedDay} onApply={onApply} />

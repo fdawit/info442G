@@ -14,6 +14,7 @@ export default function ListResultsPage() {
     const [loading, setLoading] = useState(true);
     const [loadError, setLoadError] = useState('');
     const [selectedResource, setSelectedResource] = useState(null);
+    const [filtersOpen, setFiltersOpen] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
     const searchedZip = (searchParams.get('zip') || '').trim();
     const hasValidZip = isFiveDigits(searchedZip);
@@ -71,6 +72,10 @@ export default function ListResultsPage() {
         setSearchParams(parameters);
     }
 
+    function handleToggleFilters() {
+        setFiltersOpen(!filtersOpen);
+    }
+
     let results = [];
     if (hasValidZip) {
         results = findNearZip(allResources, searchedZip, 3);
@@ -86,6 +91,7 @@ export default function ListResultsPage() {
 
     let pageClass = "food-search-page";
     if (!searchedZip) {pageClass += " food-search-home";}
+    if (hasValidZip) {pageClass += " food-search-results";}
 
     return (
         <main className={pageClass}>
@@ -94,17 +100,20 @@ export default function ListResultsPage() {
             <div className="food-search-controls">
                 <div className="food-search-row">
                     <ZipSearchBar key={searchedZip} id="page-zip" initialZip={searchedZip} onSearch={handleSearch} />
+                    {hasValidZip && (
+                        <button className="food-filter-toggle" type="button" aria-expanded={filtersOpen} aria-controls="filter-options" onClick={handleToggleFilters}>Filters</button>
+                    )}
                     <SortMenu value={sortBy} onChange={handleSort} />
+                    {hasValidZip && (
+                        <div className="food-view-buttons">
+                            <button type="button" aria-pressed={!isMapView} onClick={() => handleView("list")}>List</button>
+                            <button type="button" aria-pressed={isMapView} onClick={() => handleView("map")}>Map</button>
+                        </div>
+                    )}
                 </div>
-                <FilterPanel appliedType={foodType} appliedDay={day} onApply={handleApplyFilters} searchZip={searchedZip} />
+                <FilterPanel appliedType={foodType} appliedDay={day} onApply={handleApplyFilters}
+                    searchZip={searchedZip} isOpen={filtersOpen} onToggle={handleToggleFilters} showHeader={!hasValidZip} />
             </div>
-
-            {hasValidZip && (
-                <div className="food-view-buttons">
-                    <button type="button" aria-pressed={!isMapView} onClick={() => handleView("list")}>List</button>
-                    <button type="button" aria-pressed={isMapView} onClick={() => handleView("map")}>Map</button>
-                </div>
-            )}
             {searchedZip && !hasValidZip && <p role="alert">Please enter 5-digit zip code.</p>}
             {loading &&  <p>Loading...</p>}
             {loadError && <p>{loadError}</p>}
