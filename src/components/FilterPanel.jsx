@@ -12,19 +12,11 @@ export default function FilterPanel({
 }) {
     const optionsKey = searchZip + '|' + appliedType + '|' + appliedDay;
 
-    let summary = appliedType;
-    if (appliedDay) {
-        summary = summary + ', open ' + appliedDay;
-    } else {
-        summary = summary + ', any day';
-    }
-
     return (
         <div className="filter-panel">
             {showHeader && (
                 <button type="button" aria-expanded={isOpen} aria-controls="filter-options" onClick={onToggle}>Filters</button>
             )}
-            {showHeader && <p>Showing: {summary}</p>}
             <FilterOptions key={optionsKey} isOpen={isOpen}
                 initialType={appliedType} initialDay={appliedDay} onApply={onApply} />
         </div>
