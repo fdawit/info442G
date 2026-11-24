@@ -106,7 +106,7 @@ export default function ListResultsPage() {
             {searchedZip && !hasValidZip && <p role="alert">Please enter 5-digit zip code.</p>}
             {loading &&  <p>Loading...</p>}
             {loadError && <p>{loadError}</p>}
-            {!loading && !loadError && searchedZip === '' && (<p>Enter a ZIP code to find food near you.</p>)}
+            {!loading && !loadError && searchedZip === '' && (<p className="search-hint">Enter a ZIP code to find food near you.</p>)}
             {!loading && !loadError && hasValidZip && (
                 <div className={isMapView ? "food-map-results" : ""}>
                     <ResultsList zip={searchedZip} results={results} selectedResource={selectedResource} searchQuery={searchParams.toString()} />
