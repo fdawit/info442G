@@ -432,3 +432,54 @@ input[type="checkbox"], input[type="radio"] {
     padding: 16px;
   }
 }
+
+.benefit-search-controls {
+  margin: 24px 0 32px;
+  padding: 24px;
+  background: #f4f4f4;
+}
+
+.benefit-search-controls .zip-search {
+  max-width: 740px;
+  margin-bottom: 24px;
+}
+
+.benefit-search-controls .zip-search label {
+  flex-basis: 100%;
+}
+
+.benefit-filters {
+  align-items: flex-end;
+  gap: 16px;
+  margin: 0 0 24px;
+}
+
+.benefit-filters .form-field {
+  flex: 1 1 220px;
+}
+
+.benefit-apply {
+  background: #303030;
+  color: #fff;
+}
+
+.benefit-search-controls > .form-field {
+  max-width: 240px;
+}
+
+.benefit-results {
+  gap: 24px;
+}
+
+.benefit-results > li {
+  min-width: 0;
+}
+
+@media (max-width: 700px) {
+  .benefit-search-controls {
+    padding: 16px;
+  }
+  .benefit-search-controls > .form-field {
+    max-width: none;
+  }
+}

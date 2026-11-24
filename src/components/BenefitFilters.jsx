@@ -32,7 +32,7 @@ export default function BenefitFilters({ appliedCategory, appliedDay, onApply })
             options={DAY_OPTIONS}
             onChange={setDay}
         />
-        <button type="button" onClick={() => onApply(category, day)}>Apply</button>
+        <button className="benefit-apply" type="button" onClick={() => onApply(category, day)}>Apply</button>
         <button type="button" onClick={handleClear}>Clear</button>
         </div>
     );
