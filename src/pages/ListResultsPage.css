@@ -117,3 +117,20 @@
     flex: 1 1 160px;
   }
 }
+
+.food-applied-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.food-applied-filters span {
+  padding: 4px 12px;
+  background: #f4f4f4;
+  color: #666;
+}
+
+.food-search-results .food-search-controls > .filter-panel {
+  margin-bottom: 0;
+}

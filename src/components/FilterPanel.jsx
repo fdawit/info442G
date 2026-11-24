@@ -24,7 +24,7 @@ export default function FilterPanel({
             {showHeader && (
                 <button type="button" aria-expanded={isOpen} aria-controls="filter-options" onClick={onToggle}>Filters</button>
             )}
-            <p>Showing: {summary}</p>
+            {showHeader && <p>Showing: {summary}</p>}
             <FilterOptions key={optionsKey} isOpen={isOpen}
                 initialType={appliedType} initialDay={appliedDay} onApply={onApply} />
         </div>

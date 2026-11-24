@@ -114,10 +114,22 @@ export default function ListResultsPage() {
                 <FilterPanel appliedType={foodType} appliedDay={day} onApply={handleApplyFilters}
                     searchZip={searchedZip} isOpen={filtersOpen} onToggle={handleToggleFilters} showHeader={!hasValidZip} />
             </div>
+
+            {hasValidZip && (
+                <div className="food-applied-filters">
+                    <span>{foodType}</span>
+                    {day && <span>{day}</span>}
+                </div>
+            )}
             {searchedZip && !hasValidZip && <p role="alert">Please enter 5-digit zip code.</p>}
             {loading &&  <p>Loading...</p>}
             {loadError && <p>{loadError}</p>}
             {!loading && !loadError && searchedZip === '' && (<p className="search-hint">Enter a ZIP code to find food near you.</p>)}
+            {!loading && !loadError && hasValidZip && (
+                <p className="food-result-count">
+                    {results.length} {results.length === 1 ? 'place' : 'places'} found.
+                </p>
+            )}
             {!loading && !loadError && hasValidZip && (
                 <div className={isMapView ? "food-map-results" : ""}>
                     <ResultsList results={results} selectedResource={selectedResource} searchQuery={searchParams.toString()} />
@@ -132,9 +144,6 @@ function ResultsList({ results, selectedResource, searchQuery }) {
 
     return (
         <section>
-            <p>
-                {results.length} {results.length === 1 ? 'place' : 'places'} found.
-            </p>
             {results.length === 0 && (
                 <p>No resources found. Please try another zip code or change your filters.</p>
             )}
