@@ -22,3 +22,48 @@
     flex-direction: column;
   }
 }
+
+.resource-about {
+  padding: 28px;
+  background: #f4f4f4;
+}
+
+.resource-about h2 {
+  margin-top: 0;
+}
+
+.resource-about p {
+  margin-bottom: 0;
+}
+
+.resource-days {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resource-days li {
+  margin-bottom: 8px;
+}
+
+.resource-website-link {
+  display: inline-block;
+  min-width: 196px;
+  padding: 10px 24px;
+  border: 1px solid #303030;
+  background: #303030;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+}
+
+.resource-website-link:hover {
+  background: #e5e5e5;
+  color: #303030;
+}
+
+@media (max-width: 700px) {
+  .resource-about {
+    padding: 20px;
+  }
+}

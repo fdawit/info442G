@@ -14,6 +14,7 @@ export default function ListResultsPage() {
     const [loading, setLoading] = useState(true);
     const [loadError, setLoadError] = useState('');
     const [selectedResource, setSelectedResource] = useState(null);
+    const [filtersOpen, setFiltersOpen] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
     const searchedZip = (searchParams.get('zip') || '').trim();
     const hasValidZip = isFiveDigits(searchedZip);
@@ -71,6 +72,10 @@ export default function ListResultsPage() {
         setSearchParams(parameters);
     }
 
+    function handleToggleFilters() {
+        setFiltersOpen(!filtersOpen);
+    }
+
     let results = [];
     if (hasValidZip) {
         results = findNearZip(allResources, searchedZip, 3);
@@ -86,30 +91,48 @@ export default function ListResultsPage() {
 
     let pageClass = "food-search-page";
     if (!searchedZip) {pageClass += " food-search-home";}
+    if (hasValidZip) {pageClass += " food-search-results";}
 
     return (
         <main className={pageClass}>
-            <h1>Find Food Near You</h1>
+            <h1>{hasValidZip ? "Results for " + searchedZip : "Find Food Near You"}</h1>
 
             <div className="food-search-controls">
-                <ZipSearchBar key={searchedZip} id="page-zip" initialZip={searchedZip} onSearch={handleSearch} />
-                <FilterPanel appliedType={foodType} appliedDay={day} onApply={handleApplyFilters} searchZip={searchedZip} />
-                <SortMenu value={sortBy} onChange={handleSort} />
+                <div className="food-search-row">
+                    <ZipSearchBar key={searchedZip} id="page-zip" initialZip={searchedZip} onSearch={handleSearch} />
+                    {hasValidZip && (
+                        <button className="food-filter-toggle" type="button" aria-expanded={filtersOpen} aria-controls="filter-options" onClick={handleToggleFilters}>Filters</button>
+                    )}
+                    <SortMenu value={sortBy} onChange={handleSort} />
+                    {hasValidZip && (
+                        <div className="food-view-buttons">
+                            <button type="button" aria-pressed={!isMapView} onClick={() => handleView("list")}>List</button>
+                            <button type="button" aria-pressed={isMapView} onClick={() => handleView("map")}>Map</button>
+                        </div>
+                    )}
+                </div>
+                <FilterPanel appliedType={foodType} appliedDay={day} onApply={handleApplyFilters}
+                    searchZip={searchedZip} isOpen={filtersOpen} onToggle={handleToggleFilters} showHeader={!hasValidZip} />
             </div>
 
             {hasValidZip && (
-                <div className="food-view-buttons">
-                    <button type="button" aria-pressed={!isMapView} onClick={() => handleView("list")}>List</button>
-                    <button type="button" aria-pressed={isMapView} onClick={() => handleView("map")}>Map</button>
+                <div className="food-applied-filters">
+                    <span>{foodType}</span>
+                    {day && <span>{day}</span>}
                 </div>
             )}
             {searchedZip && !hasValidZip && <p role="alert">Please enter 5-digit zip code.</p>}
             {loading &&  <p>Loading...</p>}
             {loadError && <p>{loadError}</p>}
-            {!loading && !loadError && searchedZip === '' && (<p>Enter a ZIP code to find food near you.</p>)}
+            {!loading && !loadError && searchedZip === '' && (<p className="search-hint">Enter a ZIP code to find food near you.</p>)}
             {!loading && !loadError && hasValidZip && (
-                <div className={isMapView ? "food-map-results" : ""}>
-                    <ResultsList zip={searchedZip} results={results} selectedResource={selectedResource} searchQuery={searchParams.toString()} />
+                <p className="food-result-count">
+                    {results.length} {results.length === 1 ? 'place' : 'places'} found.
+                </p>
+            )}
+            {!loading && !loadError && hasValidZip && (
+                <div className={isMapView ? "food-map-results" : "food-list-results"}>
+                    <ResultsList results={results} selectedResource={selectedResource} searchQuery={searchParams.toString()} isMapView={isMapView} onSelect={setSelectedResource} />
                     {isMapView && <ResourceMap zip={searchedZip} results={results} onSelect={setSelectedResource} selectedResource={selectedResource} searchQuery={searchParams.toString()} />}
                 </div>
             )}
@@ -117,26 +140,27 @@ export default function ListResultsPage() {
     );
 }
 
-function ResultsList({ zip, results, selectedResource, searchQuery }) {
+function ResultsList({ results, selectedResource, searchQuery, isMapView, onSelect }) {
 
     return (
         <section>
-            <h2>Results for {zip}</h2>
-            <p>
-                {results.length} {results.length === 1 ? 'place' : 'places'} found.
-            </p>
             {results.length === 0 && (
                 <p>No resources found. Please try another zip code or change your filters.</p>
             )}
             <ul className="results-grid">
                 {results.map((resource, index) => (
-                    <li key={resource.id} className={resource === selectedResource ? "resource-selected" : ""}>
-                        <p>Result {index + 1}</p>
-                        <ResourceCard name={resource.name} category={resource.type} address={resource.address} photo={resource.photo}>
-                            <p>Status: {resource.status || 'Unknown'}</p>
-                            <p>Open: {resource.days.length > 0 ? resource.days.join(', ') : 'Days not listed'}</p>
-                            <p>Distance: {resource.distance === null ? 'Distance not available' : resource.distance.toFixed(1) + ' mi'}</p>
-                            <p><Link to={"/resource-details/" + encodeURIComponent(resource.id) + "?" + searchQuery}>View details</Link></p>
+                    <li key={resource.id} className={isMapView && selectedResource && resource.id === selectedResource.id ? "resource-selected" : ""}>
+                        <ResourceCard name={resource.name} category={resource.type} address={resource.address} photo={resource.photo}
+                            resultNumber={isMapView ? index + 1 : null}
+                            onSelect={isMapView ? () => onSelect(resource) : undefined}
+                            selected={selectedResource ? resource.id === selectedResource.id : false}>
+                            <div className="food-card-actions">
+                                <p>Distance: {resource.distance === null ? 'Distance not available' : resource.distance.toFixed(1) + ' mi'}</p>
+                                <Link className="food-details-link" to={"/resource-details/" + encodeURIComponent(resource.id) + "?" + searchQuery}
+                                    onClick={(event) => {
+                                        event.stopPropagation();
+                                    }}>View details</Link>
+                            </div>
                         </ResourceCard>
                     </li>
                 ))}

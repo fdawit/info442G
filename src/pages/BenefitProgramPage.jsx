@@ -55,47 +55,52 @@ export default function BenefitProgramPage() {
     return(
         <main className="benefit-program">
             {backLink}
-            <img className="benefit-program-photo" src={placeholderImage} alt="" />
+            <div className="benefit-program-layout">
+                <div className="benefit-program-content">
+                    <img className="benefit-program-photo" src={placeholderImage} alt="" />
 
-            <h1>{program.name || 'Name not available'}</h1>
-            <p>Offered by: {organization && organization.name ? organization.name : 'Not available'}</p>
+                    <h1>{program.name || 'Name not available'}</h1>
+                    <p>Offered by: {organization && organization.name ? organization.name : 'Not available'}</p>
 
-            <h2>Details</h2>
-            <p>{program.description || 'Not available'}</p>
+                    <h2>Details</h2>
+                    <p>{program.description || 'Not available'}</p>
 
-            <h2>How to apply</h2>
-            <p>{PLACEHOLDER_TEXT}</p>
+                    <h2>How to apply</h2>
+                    <p>{PLACEHOLDER_TEXT}</p>
 
-            <h2>Required documents</h2>
-            <p>{PLACEHOLDER_TEXT}</p>
+                    <h2>Required documents</h2>
+                    <p>{PLACEHOLDER_TEXT}</p>
 
-            <h2>Who can get it</h2>
-            <p>{PLACEHOLDER_TEXT}</p>
+                    <h2>Who can get it</h2>
+                    <p>{PLACEHOLDER_TEXT}</p>
+                </div>
+                <div className="benefit-program-sidebar">
+                    <h2>Location</h2>
+                    <LocationMap location={location} />
+                    <p>{location && location.address ? location.address : 'Address not available'}</p>
 
-            <h2>Location</h2>
-            <LocationMap location={location} />
-            <p>{location && location.address ? location.address : 'Address not available'}</p>
+                    <h2>Hours</h2>
+                    <HoursList hours={hours} />
 
-            <h2>Hours</h2>
-            <HoursList hours={hours} />
-
-            <h2>Contact</h2>
-            <ul className="benefit-program-contact">
-                <li>
-                    Website:{' '}
-                    {program.website ? (
-                        <a href={program.website} target="_blank" rel="noreferrer">{program.website}</a>
-                    ) : 'Not available'}
-                </li>
-                <li>
-                    Phone:{' '}
-                    {program.phone ? <a href={'tel:' + program.phone}>{program.phone}</a> : 'Not available'}
-                </li>
-                <li>
-                    Email:{' '}
-                    {program.email ? <a href={'mailto:' + program.email}>{program.email}</a> : 'Not available'}
-                </li>
-            </ul>
+                    <h2>Contact</h2>
+                    <ul className="benefit-program-contact">
+                        <li>
+                            Website:{' '}
+                            {program.website ? (
+                                <a href={program.website} target="_blank" rel="noreferrer">{program.website}</a>
+                            ) : 'Not available'}
+                        </li>
+                        <li>
+                            Phone:{' '}
+                            {program.phone ? <a href={'tel:' + program.phone}>{program.phone}</a> : 'Not available'}
+                        </li>
+                        <li>
+                            Email:{' '}
+                            {program.email ? <a href={'mailto:' + program.email}>{program.email}</a> : 'Not available'}
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </main>
     );
 }

@@ -115,22 +115,24 @@ function ResultsList({ saved }) {
             <h1>Benefits Eligibility Results</h1>
 
             {!saved.incomeAvailable && <p>Income rules could not load, so these results are general.</p>}
+            
+            <div className="benefit-search-controls">
+                <ZipSearchBar
+                    key={zip}
+                    id="benefits-zip"
+                    initialZip={zip}
+                    onSearch={(newZip) => updateAddress({ zip: newZip })}
+                />
 
-            <ZipSearchBar
-                key={zip}
-                id="benefits-zip"
-                initialZip={zip}
-                onSearch={(newZip) => updateAddress({ zip: newZip })}
-            />
+                <BenefitFilters
+                    key={category + '|' + day}
+                    appliedCategory={category}
+                    appliedDay={day}
+                    onApply={(newCategory, newDay) => updateAddress({ category: newCategory, day: newDay })}
+                />
 
-            <BenefitFilters
-                key={category + '|' + day}
-                appliedCategory={category}
-                appliedDay={day}
-                onApply={(newCategory, newDay) => updateAddress({ category: newCategory, day: newDay })}
-            />
-
-            <SortMenu value={sortBy} onChange={(newSort) => updateAddress({ sort: newSort })} />
+                <SortMenu value={sortBy} onChange={(newSort) => updateAddress({ sort: newSort })} />
+            </div>
 
             {loading && <p>Loading...</p>}
             {failed && <p role="alert">Unable to load eligibility results. Please try again.</p>}

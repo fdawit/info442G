@@ -2,7 +2,7 @@
 
 export default function Dropdown({ id, label, value, options, onChange }) {
   return (
-    <div>
+    <div className="form-field">
       <label htmlFor={id}>{label}</label>
       <select id={id} value={value} onChange={(event) => onChange(event.target.value)}>
         {options.map((option) => (
