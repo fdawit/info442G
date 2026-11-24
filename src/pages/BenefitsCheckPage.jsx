@@ -85,22 +85,24 @@ export default function BenefitsCheckPage() {
       <h1>Benefits Eligibility Check</h1>
       <p>Question {position + 1} of {path.length}</p>
       <progress value={position + 1} max={path.length}/>
-      {question.kind === 'location' ? (
-        <LocationQuestion
-          question={question}
-          value={answers[2]}
-          message={zipMessage}
-          onChange={(value) => saveAnswer(2, value)}
-          onMessage={setZipMessage}
-          onSkip={handleSkip}
-        />
-      ) : (
-        <ChoiceQuestion
-          question={question}
-          options={options}
-          value={answers[current]}
-          onChange={(value) => saveAnswer(current, value)}/>
-      )}
+      <div className="question-panel">
+        {question.kind === 'location' ? (
+          <LocationQuestion
+            question={question}
+            value={answers[2]}
+            message={zipMessage}
+            onChange={(value) => saveAnswer(2, value)}
+            onMessage={setZipMessage}
+            onSkip={handleSkip}
+          />
+        ) : (
+          <ChoiceQuestion
+            question={question}
+            options={options}
+            value={answers[current]}
+            onChange={(value) => saveAnswer(current, value)}/>
+        )}
+      </div>
 
       <div className="question-buttons">
         <button type="button" onClick={handlePrevious} disabled={position === 0}>Previous</button>
