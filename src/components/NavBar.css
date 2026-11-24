@@ -42,7 +42,7 @@
   display: inline-block;
   padding: 8px 0;
 }
-.navbar-links a[aria-current="page"] {
+.navbar-links a.active {
   border-bottom: 2px solid #303030;
   font-weight: bold;
 }
