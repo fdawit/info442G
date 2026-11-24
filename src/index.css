@@ -299,3 +299,23 @@ input[type="checkbox"], input[type="radio"] {
     grid-template-columns: 1fr;
   }
 }
+
+.resource-map > p {
+  padding: 12px 16px;
+  background: #f4f4f4;
+  word-break: break-word;
+}
+
+.resource-map-canvas {
+  background: #eee;
+}
+
+.food-map-results .resource-selected .resource-card {
+  background: #f4f4f4;
+}
+
+@media (max-width: 700px) {
+  .food-map-results .resource-map-canvas {
+    height: 360px;
+  }
+}
