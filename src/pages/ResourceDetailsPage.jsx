@@ -69,17 +69,25 @@ function ResourceDetailsContent({ resourceId, backTo }) {
                     <h2>Contact information</h2>
                     {resource.phone && <p><a href={"tel:" + resource.phone}>{resource.phone}</a></p>}
                     {resource.website && (
-                        <p><a href={resource.website} target="_blank" rel="noreferrer">Visit website</a></p>
+                        <p><a className="resource-website-link" href={resource.website} target="_blank" rel="noreferrer">Visit website</a></p>
                     )}
                     {!resource.phone && !resource.website && <p>Information not available.</p>}
                 </section>
                 <section>
-                    <h2>About resource</h2>
-                    <p>Information not available.</p>
+                    <div className="resource-about">
+                        <h2>About resource</h2>
+                        <p>Information not available.</p>
+                    </div>
                     <h2>Eligibility requirements</h2>
                     <p>{resource.whoTheyServe || "Information not available."}</p>
                     <h2>Days of operation</h2>
-                    {resource.days.length > 0 && <p>Open days: {resource.days.join(', ')}</p>}
+                    {resource.days.length > 0 && (
+                        <ul className="resource-days">
+                            {resource.days.map((day) => (
+                                <li key={day}>{day}</li>
+                            ))}
+                        </ul>
+                    )}
                 </section>
             </div>
         </main>
