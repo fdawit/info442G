@@ -92,17 +92,17 @@ export default function ResourceMap({ zip, results, onSelect, selectedResource, 
 
     return (
         <div className="resource-map">
-            {results.indexOf(selectedResource) !== -1 && (
-                <p role="status">
-                    {selectedResource.name} · {selectedResource.address}{" · "}
-                    <Link to={"/resource-details/" + encodeURIComponent(selectedResource.id) + "?" + searchQuery}>View details</Link>
-                </p>
-            )}
             {(!apiKey || mapError) && (
                 <p role="alert">Unable to load the map. Please try again.</p>
             )}
             {hiddenCount > 0 && <p>{hiddenCount} location(s) cannot be shown.</p>}
             <div className="resource-map-canvas" ref={elementRef} role="region" aria-label="Food resource map" />
+            {results.indexOf(selectedResource) !== -1 && (
+                <p className="resource-map-selection" role="status">
+                    {selectedResource.name} · {selectedResource.address}{" · "}
+                    <Link to={"/resource-details/" + encodeURIComponent(selectedResource.id) + "?" + searchQuery}>View details</Link>
+                </p>
+            )}
         </div>
     );
 }

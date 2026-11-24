@@ -243,3 +243,7 @@
   line-height: 24px;
   text-align: center;
 }
+
+.food-map-results .resource-map-selection {
+  margin: 16px 0 0;
+}
