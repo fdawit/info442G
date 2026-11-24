@@ -16,15 +16,18 @@ export default function NavBar() {
 
   return (
     <header className="navbar">
-      <nav aria-label="Main">
-        <ul className="navbar-links">
-          <li><NavLink to="/" end>Home</NavLink></li>
-          <li><NavLink to="/benefits-check">Benefits Help</NavLink></li>
-          <li><NavLink to="/about">About</NavLink></li>
-        </ul>
-      </nav>
+      <div className="navbar-content">
+        <NavLink to="/" className="navbar-brand">Neighborly</NavLink>
+        <nav aria-label="Main">
+          <ul className="navbar-links">
+            <li><NavLink to="/" end>Home</NavLink></li>
+            <li><NavLink to="/benefits-check">Benefits Help</NavLink></li>
+            <li><NavLink to="/about">About</NavLink></li>
+          </ul>
+        </nav>
 
-      <ZipSearchBar id="nav-zip" onSearch={handleSearch} />
+        <ZipSearchBar id="nav-zip" onSearch={handleSearch} />
+      </div>
     </header>
   );
 }
