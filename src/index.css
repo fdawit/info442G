@@ -236,6 +236,7 @@ input[type="checkbox"], input[type="radio"] {
 
 .food-view-buttons button[aria-pressed="true"] {
   background: #303030;
+  color: #fff;
 }
 
 @media (max-width: 700px) {
