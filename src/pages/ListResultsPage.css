@@ -134,3 +134,75 @@
 .food-search-results .food-search-controls > .filter-panel {
   margin-bottom: 0;
 }
+
+.food-list-results .results-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.food-list-results .resource-card {
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  padding: 20px;
+}
+
+.food-list-results .resource-card-photo {
+  width: 120px;
+  height: 96px;
+  flex-shrink: 0;
+}
+
+.food-list-results .resource-card-body {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 24px;
+  min-width: 0;
+  padding: 0;
+}
+
+.food-list-results .resource-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.food-list-results .food-card-actions {
+  flex: 0 0 180px;
+}
+
+.food-list-results .food-details-link {
+  display: block;
+  padding: 10px 16px;
+  border: 1px solid #bbb;
+  text-align: center;
+  text-decoration: none;
+}
+
+.food-list-results .food-details-link:hover {
+  background: #f4f4f4;
+}
+
+@media (max-width: 700px) {
+  .food-list-results .resource-card {
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .food-list-results .resource-card-photo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .food-list-results .resource-card-body {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .food-list-results .food-card-actions {
+    flex: 0 1 auto;
+  }
+}

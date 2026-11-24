@@ -131,8 +131,8 @@ export default function ListResultsPage() {
                 </p>
             )}
             {!loading && !loadError && hasValidZip && (
-                <div className={isMapView ? "food-map-results" : ""}>
-                    <ResultsList results={results} selectedResource={selectedResource} searchQuery={searchParams.toString()} />
+                <div className={isMapView ? "food-map-results" : "food-list-results"}>
+                    <ResultsList results={results} selectedResource={selectedResource} searchQuery={searchParams.toString()} isMapView={isMapView} />
                     {isMapView && <ResourceMap zip={searchedZip} results={results} onSelect={setSelectedResource} selectedResource={selectedResource} searchQuery={searchParams.toString()} />}
                 </div>
             )}
@@ -140,7 +140,7 @@ export default function ListResultsPage() {
     );
 }
 
-function ResultsList({ results, selectedResource, searchQuery }) {
+function ResultsList({ results, selectedResource, searchQuery, isMapView }) {
 
     return (
         <section>
@@ -149,13 +149,13 @@ function ResultsList({ results, selectedResource, searchQuery }) {
             )}
             <ul className="results-grid">
                 {results.map((resource, index) => (
-                    <li key={resource.id} className={resource === selectedResource ? "resource-selected" : ""}>
-                        <p>Result {index + 1}</p>
+                    <li key={resource.id} className={isMapView && resource === selectedResource ? "resource-selected" : ""}>
+                        {isMapView && <p>Result {index + 1}</p>}
                         <ResourceCard name={resource.name} category={resource.type} address={resource.address} photo={resource.photo}>
-                            <p>Status: {resource.status || 'Unknown'}</p>
-                            <p>Open: {resource.days.length > 0 ? resource.days.join(', ') : 'Days not listed'}</p>
-                            <p>Distance: {resource.distance === null ? 'Distance not available' : resource.distance.toFixed(1) + ' mi'}</p>
-                            <p><Link to={"/resource-details/" + encodeURIComponent(resource.id) + "?" + searchQuery}>View details</Link></p>
+                            <div className="food-card-actions">
+                                <p>Distance: {resource.distance === null ? 'Distance not available' : resource.distance.toFixed(1) + ' mi'}</p>
+                                <Link className="food-details-link" to={"/resource-details/" + encodeURIComponent(resource.id) + "?" + searchQuery}>View details</Link>
+                            </div>
                         </ResourceCard>
                     </li>
                 ))}
