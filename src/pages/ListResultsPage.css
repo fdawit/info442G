@@ -247,3 +247,7 @@
 .food-map-results .resource-map-selection {
   margin: 16px 0 0;
 }
+
+.food-search-results #filter-options {
+  margin-bottom: 16px;
+}
