@@ -114,7 +114,7 @@ function ResultsList({ saved }) {
         <main>
             <h1>Benefits Eligibility Results</h1>
 
-            {!saved.incomeAvailable && <p>Income rules could not load, so these results are general.</p>}
+            {!saved.incomeAvailable && <p role="alert">Income rules could not load, so these results are general.</p>}
             
             <div className="benefit-search-controls">
                 <ZipSearchBar

@@ -47,7 +47,7 @@ export default function BenefitProgramPage() {
         return <main>{backLink}<p role="alert">Unable to load program details. Please try again.</p></main>;
     }
     if (!response.details) {
-        return <main>{backLink}<h1>Program not found</h1><p>We could not find that program.</p></main>;
+        return <main>{backLink}<h1>Program not found</h1><p role="alert">We could not find that program.</p></main>;
     }
 
     const { program, organization, location, hours } = response.details;
