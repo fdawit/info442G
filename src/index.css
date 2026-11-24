@@ -483,3 +483,57 @@ input[type="checkbox"], input[type="radio"] {
     max-width: none;
   }
 }
+
+.benefit-program > a {
+  display: inline-block;
+  margin-bottom: 24px;
+}
+
+.benefit-program-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+}
+
+.benefit-program-content {
+  flex: 3;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.benefit-program-sidebar {
+  flex: 2;
+  min-width: 0;
+  padding: 28px;
+  background: #f4f4f4;
+  word-break: break-word;
+}
+
+.benefit-program-content h2, .benefit-program-sidebar h2 {
+  margin-top: 32px;
+}
+
+.benefit-program-sidebar > h2:first-child {
+  margin-top: 0;
+}
+
+.benefit-program-sidebar .resource-map-canvas {
+  height: 260px;
+}
+
+.benefit-program-contact li, .benefit-program-hours li {
+  margin-bottom: 8px;
+}
+
+@media (max-width: 700px) {
+  .benefit-program-layout {
+    flex-direction: column;
+    gap: 32px;
+  }
+  .benefit-program-content, .benefit-program-sidebar {
+    width: 100%;
+  }
+  .benefit-program-sidebar {
+    padding: 20px;
+  }
+}
