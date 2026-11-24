@@ -81,6 +81,8 @@ export default function ResourceMap({ zip, results, onSelect, selectedResource, 
                 title: resource.name || "Resource",
                 zIndexOffset: markerOrder
             }).addTo(markers);
+            const markerElement = marker.getElement();
+            markerElement.setAttribute("aria-label", "Result " + (index + 1) + ": " + (resource.name || resource.address || "Resource"));
             if (typeof onSelect === 'function') {
                 marker.on("click", () => {
                     onSelect(resource);
@@ -116,7 +118,7 @@ export default function ResourceMap({ zip, results, onSelect, selectedResource, 
                 <p role="alert">Unable to load the map. Please try again.</p>
             )}
             {hiddenCount > 0 && <p>{hiddenCount} location(s) cannot be shown.</p>}
-            <div className="resource-map-canvas" ref={elementRef} role="region" aria-label="Food resource map" />
+            <div className="resource-map-canvas" ref={elementRef} role="region" aria-label="Resource locations map" />
             {selectedResult && (
                 <p className="resource-map-selection" role="status">
                     {selectedResult.name} · {selectedResult.address}{" · "}
