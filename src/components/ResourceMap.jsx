@@ -64,15 +64,22 @@ export default function ResourceMap({ zip, results, onSelect, selectedResource, 
             if (!hasResourceCoordinates(resource)) {
                 return;
             }
+            let markerClass = "resource-map-marker";
+            let markerOrder = 0;
+            if (selectedResource && resource.id === selectedResource.id) {
+                markerClass += " resource-map-marker-selected";
+                markerOrder = 1000;
+            }
             const icon = L.divIcon({
-                className: "resource-map-marker",
+                className: markerClass,
                 html: String(index + 1),
                 iconSize: [28, 28],
                 iconAnchor: [14, 14]
             });
             const marker = L.marker([resource.lat, resource.lng], {
                 icon,
-                title: resource.name || "Resource"
+                title: resource.name || "Resource",
+                zIndexOffset: markerOrder
             }).addTo(markers);
             if (typeof onSelect === 'function') {
                 marker.on("click", () => {
@@ -83,12 +90,18 @@ export default function ResourceMap({ zip, results, onSelect, selectedResource, 
         return () => {
             markers.remove();
         };
-    }, [results, onSelect, apiKey]);
+    }, [results, onSelect, apiKey, selectedResource]);
 
     const hiddenCount = results.filter((resource) => {
         return !hasResourceCoordinates(resource);
     }).length;
 
+    let selectedResult = null;
+    if (selectedResource) {
+        selectedResult = results.find((resource) => {
+            return resource.id === selectedResource.id;
+        });
+    }
 
     return (
         <div className="resource-map">
@@ -97,10 +110,10 @@ export default function ResourceMap({ zip, results, onSelect, selectedResource, 
             )}
             {hiddenCount > 0 && <p>{hiddenCount} location(s) cannot be shown.</p>}
             <div className="resource-map-canvas" ref={elementRef} role="region" aria-label="Food resource map" />
-            {results.indexOf(selectedResource) !== -1 && (
+            {selectedResult && (
                 <p className="resource-map-selection" role="status">
-                    {selectedResource.name} · {selectedResource.address}{" · "}
-                    <Link to={"/resource-details/" + encodeURIComponent(selectedResource.id) + "?" + searchQuery}>View details</Link>
+                    {selectedResult.name} · {selectedResult.address}{" · "}
+                    <Link to={"/resource-details/" + encodeURIComponent(selectedResult.id) + "?" + searchQuery}>View details</Link>
                 </p>
             )}
         </div>

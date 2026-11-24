@@ -149,7 +149,7 @@ function ResultsList({ results, selectedResource, searchQuery, isMapView }) {
             )}
             <ul className="results-grid">
                 {results.map((resource, index) => (
-                    <li key={resource.id} className={isMapView && resource === selectedResource ? "resource-selected" : ""}>
+                    <li key={resource.id} className={isMapView && selectedResource && resource.id === selectedResource.id ? "resource-selected" : ""}>
                         <ResourceCard name={resource.name} category={resource.type} address={resource.address} photo={resource.photo}
                             resultNumber={isMapView ? index + 1 : null}>
                             <div className="food-card-actions">
