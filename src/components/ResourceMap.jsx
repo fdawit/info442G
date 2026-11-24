@@ -85,6 +85,13 @@ export default function ResourceMap({ zip, results, onSelect, selectedResource, 
                 marker.on("click", () => {
                     onSelect(resource);
                 });
+                marker.on("keydown", (event) => {
+                    if (event.originalEvent.key === 'Enter') {
+                        L.DomEvent.preventDefault(event.originalEvent);
+                        L.DomEvent.stopPropagation(event.originalEvent);
+                        onSelect(resource);
+                    }
+                });
             }
         });
         return () => {
