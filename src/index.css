@@ -282,13 +282,6 @@ input[type="checkbox"], input[type="radio"] {
   min-width: 0;
 }
 
-.results-grid > li > p {
-  margin: 0;
-  padding: 8px 12px;
-  background: #f4f4f4;
-  font-weight: bold;
-}
-
 .benefit-card-link {
   color: inherit;
   text-decoration: none;

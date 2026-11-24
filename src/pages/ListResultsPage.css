@@ -61,6 +61,7 @@
 
 .food-map-results .results-grid {
   grid-template-columns: 1fr;
+  gap: 12px;
   max-height: 480px;
   overflow-y: auto;
 }
@@ -205,4 +206,40 @@
   .food-list-results .food-card-actions {
     flex: 0 1 auto;
   }
+}
+
+.food-map-results .resource-card {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+}
+
+.food-map-results .resource-card-photo {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+}
+
+.food-map-results .resource-card-body {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+}
+
+.food-map-results .resource-card-name {
+  font-size: 18px;
+}
+
+.resource-card-number {
+  display: inline-block;
+  min-width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: #303030;
+  color: #fff;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
 }
