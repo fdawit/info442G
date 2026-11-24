@@ -537,3 +537,32 @@ input[type="checkbox"], input[type="radio"] {
     padding: 20px;
   }
 }
+
+.about-page {
+  max-width: 1000px;
+}
+
+.about-page > h1 {
+  margin-bottom: 24px;
+}
+
+.about-page > p {
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.about-mission {
+  margin-top: 40px;
+  padding: 32px;
+  background: #f4f4f4;
+}
+
+.about-mission p {
+  margin-bottom: 0;
+}
+
+@media (max-width: 700px) {
+  .about-mission {
+    padding: 20px;
+  }
+}
