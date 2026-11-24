@@ -19,7 +19,7 @@ export default function FilterPanel({ appliedType, appliedDay, onApply, searchZi
     }
 
     return (
-        <div>
+        <div className="filter-panel">
             <button type="button" aria-expanded={isOpen} aria-controls="filter-options" onClick={() => setIsOpen(!isOpen)}> Filters</button>
             <p>Showing: {summary}</p>
             <FilterOptions key={optionsKey} isOpen={isOpen}

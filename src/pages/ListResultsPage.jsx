@@ -89,12 +89,14 @@ export default function ListResultsPage() {
 
     return (
         <main className={pageClass}>
-            <h1>Find Food Near You</h1>
+            <h1>{hasValidZip ? "Results for " + searchedZip : "Find Food Near You"}</h1>
 
             <div className="food-search-controls">
-                <ZipSearchBar key={searchedZip} id="page-zip" initialZip={searchedZip} onSearch={handleSearch} />
+                <div className="food-search-row">
+                    <ZipSearchBar key={searchedZip} id="page-zip" initialZip={searchedZip} onSearch={handleSearch} />
+                    <SortMenu value={sortBy} onChange={handleSort} />
+                </div>
                 <FilterPanel appliedType={foodType} appliedDay={day} onApply={handleApplyFilters} searchZip={searchedZip} />
-                <SortMenu value={sortBy} onChange={handleSort} />
             </div>
 
             {hasValidZip && (
@@ -109,7 +111,7 @@ export default function ListResultsPage() {
             {!loading && !loadError && searchedZip === '' && (<p className="search-hint">Enter a ZIP code to find food near you.</p>)}
             {!loading && !loadError && hasValidZip && (
                 <div className={isMapView ? "food-map-results" : ""}>
-                    <ResultsList zip={searchedZip} results={results} selectedResource={selectedResource} searchQuery={searchParams.toString()} />
+                    <ResultsList results={results} selectedResource={selectedResource} searchQuery={searchParams.toString()} />
                     {isMapView && <ResourceMap zip={searchedZip} results={results} onSelect={setSelectedResource} selectedResource={selectedResource} searchQuery={searchParams.toString()} />}
                 </div>
             )}
@@ -117,11 +119,10 @@ export default function ListResultsPage() {
     );
 }
 
-function ResultsList({ zip, results, selectedResource, searchQuery }) {
+function ResultsList({ results, selectedResource, searchQuery }) {
 
     return (
         <section>
-            <h2>Results for {zip}</h2>
             <p>
                 {results.length} {results.length === 1 ? 'place' : 'places'} found.
             </p>
