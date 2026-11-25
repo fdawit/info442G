@@ -5,11 +5,18 @@ export default function AboutPage() {
     <main className="about-page">
       <h1>About Neighborly</h1>
       <p>
-        Neighborly helps people in Seattle Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta dicta ipsa assumenda vitae aspernatur, necessitatibus facere eum laudantium tenetur voluptatem perspiciatis eius deserunt obcaecati vel asperiores nihil ipsum architecto facilis?
+        Neighborly was created to help address food insecurity in the Greater Seattle Area. We help individuals and families find 
+        local food resources and government programs, making it easier to discover and access the support available in their communities. 
+        Our goal is to make finding help simple, accessible, and welcoming for everyone.
       </p>
       <section className="about-mission">
         <h2>Mission Statement</h2>
-        <p>Mission is coming soon.</p>
+        <p>
+          Our mission is to make it easier for people experiencing food insecurity to find and access the support they need. 
+          We strive to connect individuals with local food resources and government assistance programs through a platform that is 
+          simple to use, private, and free of stigma. We believe everyone deserves access to food assistance without unnecessary 
+          barriers or judgment.
+        </p>
       </section>
     </main>
   );
