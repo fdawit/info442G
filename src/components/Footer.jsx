@@ -31,7 +31,7 @@ export default function Footer() {
         <section>
           <h2>About Us</h2>
           <p>
-            Neighborly helps people in Seattle and Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt sit nam assumenda a odio quasi qui adipisci minus eum praesentium voluptas, vitae dolorum reiciendis quo repellat fugiat commodi cumque maxime?
+            Neighborly helps Greater Seattle residents find local food resources and government assistance, making support easier to access for everyone.
           </p>
           <Link to="/about">About Us</Link>
         </section>
