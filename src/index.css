@@ -551,3 +551,8 @@ input[type="checkbox"], input[type="radio"] {
     padding: 20px;
   }
 }
+
+:focus-visible {
+  outline: 3px solid #303030;
+  outline-offset: 3px;
+}
