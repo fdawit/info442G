@@ -1,16 +1,34 @@
-# React + Vite
+## Quality
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Accessibility
+- Every form field has a visible label, and questionnaire answers are grouped with
+  fieldset and legend, so screen readers read the question before each answer.
+- Error messages (invalid ZIP code, location errors, failed loads, expired answers)
+  use role="alert", so screen readers announce them as soon as they appear.
+- Map pins are keyboard reachable, have descriptive labels ("Result 1: <name>"), and
+  can be selected with the Enter key. The map region has its own label.
+- Toggle buttons tell screen readers their state: aria-expanded on Filters,
+  aria-pressed on the List/Map buttons, and NavLink marks the current page.
+- Images have alt text; placeholder images use empty alt text because they are decorative.
+- Every interactive element has a clearly visible focus outline (a :focus-visible rule
+  with an offset, so it shows on dark buttons too).
+- An axe accessibility audit (WCAG 2 A and AA) found no violations on any page,
+  including color contrast.
 
-Currently, two official plugins are available:
+### Responsivity
+- Layouts use flexbox wrapping and CSS grid (auto-fill), so they adapt from 320px phones
+  to 1920px desktops; content is capped at a readable width on large screens.
+- Tested at 320px wide: no page scrolls sideways, and text is at least 14px.
+- The map, filters, sorting and questionnaire work by touch. Controls are native
+  inputs, selects and buttons, so phones show their own pickers.
+- ZIP code boxes use inputMode="numeric" to bring up the number keypad on phones.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Security and privacy
+- No accounts or passwords, and no personal information is sent to a server.
+- Questionnaire answers stay in the user's browser: in memory while answering, then in a
+  cookie that expires after 60 minutes (SameSite=Lax). The last searched ZIP code is
+  kept in session storage only until the tab is closed.
+- ZIP codes are checked (exactly 5 digits) before any search runs.
+- External links open in a new tab with rel="noreferrer".
+- The app never inserts raw HTML; React escapes all text from the city data and Supabase.
+- Only browser-safe keys are used in the front end (the Supabase publishable key).
